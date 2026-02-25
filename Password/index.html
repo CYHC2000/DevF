@@ -13,35 +13,51 @@
 </head>
 <body>
     <div class="back">
-        <div class="password-generator">
-            <h3>Passsword Generator</h3>
-            <label for="" class="password"></label>
+        <div class="password_generator">
+            <h3>Password Generator</h3>
 
-            <div>
-                <p>Character lenght</p>
-                <p class="number"></p>
-                <input type="range" min="8" max="20" value="2">
-                <input type="checkbox" id="opcion1" name="opcion1" value="valor">
-                <label for="opcion1">Inlcude Uppercase letters</label>
-                <input type="checkbox" id="opcion1" name="opcion1" value="valor">
-                <label for="opcion1">Inlcude Lowcase letters</label>
-                <input type="checkbox" id="opcion1" name="opcion1" value="valor">
-                <label for="opcion1">Include Numbers</label>
-                <input type="checkbox" id="opcion1" name="opcion1" value="valor">
-                <label for="opcion1">Inlude symbols</label>
-                <div>
-                    <p>STRENGHT</p>
-                    <p class="strenght"></p>
-                    <div class="container">
-                        <div></div>
-                        <div></div>
-                        <div></div>
-                        <div></div>
-                    </div>
+            <div class="password">
+                <span id="passwordText">Password</span>
+                <button class="copy_btn" aria-label="Copy password" id="copyBtn">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+            <path d="M16 1H4C2.9 1 2 1.9 2 3V15H4V3H16V1Z" fill="#a3e9a8"/>
+            <path d="M20 5H8C6.9 5 6 5.9 6 7V21C6 22.1 6.9 23 8 23H20C21.1 23 22 22.1 22 21V7C22 5.9 21.1 5 20 5Z" fill="#a3e9a8"/>
+        </svg>
+    </button>
+            </div>
+
+            <div class="container">
+                <div class="length_row">
+                    <p>Character length</p>
+                    <p class="number" id="lengthNumber">10</p>
                 </div>
-                <button class="generate">Generate</button>
+
+                <input type="range" min="0" max="20" value="8" class="slide" id="lengthSlider">
+
+                <ul class="checkbox-list">
+                    <li><label><input type="checkbox" id="uppercase"> Include Uppercase Letters</label></li>
+                    <li><label><input type="checkbox" id="lowcase"> Include Lowercase Letters</label></li>
+                    <li><label><input type="checkbox" id="numbers"> Include Numbers</label></li>
+                    <li><label><input type="checkbox" id="symbols"> Include Symbols</label></li>
+                </ul>
+<div class="container_strength">
+    <p class="phrase">STRENGTH</p>
+
+    <div class="strength_group">
+        <p class="strength">MEDIUM</p>
+        <div class="bars">
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+        </div>
+    </div>
+</div>
+
+                <button class="generate" id="generateBtn">Generate →</button>
             </div>
         </div>
     </div>
+    <script src="password.js"></script>
 </body>
 </html>
