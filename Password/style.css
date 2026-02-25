@@ -1,0 +1,26 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+    background-image: url("fondo.png");
+    background-size:cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.back{
+    height: 100vh;
+    margin: 80px;
+    display: flex;
+    justify-content:center;
+    align-items:flex-start;
+    background-color: black;
+}
+
+h3{
+    color: #06b6d4;
+}
