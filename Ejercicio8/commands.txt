@@ -1,0 +1,14 @@
+# Add a new note
+node gestorNotas.js agregar "Compras" "Comprar leche, pan y huevos"
+
+# List all notes
+node gestorNotas.js listar
+
+# Delete a note by title
+node gestorNotas.js eliminar "Compras"
+
+# Show statistics
+node gestorNotas.js estadisticas
+
+# Show help
+node gestorNotas.js ayuda

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shopping List Manager - Organize Your Shopping</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🛒 Shopping List Manager</h1>
+            <p>Add, remove, and manage your shopping items</p>
+        </header>
+
+        <main>
+            <!-- Add Product Section -->
+            <section class="add-section">
+                <h2>Add New Product</h2>
+                <div class="input-group">
+                    <input type="text" id="productInput" placeholder="Enter product name..." maxlength="50">
+                    <button id="addBtn" class="btn btn-primary">Add Product ➕</button>
+                </div>
+                <p id="errorMessage" class="error-message"></p>
+            </section>
+
+            <!-- Shopping List Section -->
+            <section class="list-section">
+                <h2>My Shopping List</h2>
+                <div class="list-stats">
+                    <span id="itemCount">Total items: 0</span>
+                    <button id="clearAllBtn" class="btn btn-danger">Clear All 🗑️</button>
+                </div>
+                <div id="shoppingList" class="shopping-list">
+                    <p class="empty-message">Your shopping list is empty. Add some products! 🛍️</p>
+                </div>
+            </section>
+
+            <!-- Quick Actions Section -->
+            <section class="actions-section">
+                <h2>Quick Actions</h2>
+                <div class="action-buttons">
+                    <button id="sampleItemsBtn" class="btn btn-secondary">Add Sample Items 📝</button>
+                    <button id="sortBtn" class="btn btn-secondary">Sort Alphabetically 🔤</button>
+                </div>
+            </section>
+        </main>
+
+        <footer>
+            <p>💡 Tip: Products are case-insensitive - "Milk" and "milk" are the same!</p>
+        </footer>
+    </div>
+
+    <script type="module" src="js/app.js"></script>
+</body>
+</html>

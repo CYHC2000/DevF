@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Divide and Conquer - Find Maximum Number</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🔍 Divide and Conquer</h1>
+            <p>Find the maximum number in an array using recursive divide and conquer</p>
+        </header>
+
+        <main>
+            <!-- Explanation Section -->
+            <section class="explanation-section">
+                <h2>📖 How Divide and Conquer Works</h2>
+                <div class="algorithm-visual">
+                    <div class="steps-container">
+                        <div class="step">
+                            <div class="step-number">1</div>
+                            <div class="step-content">
+                                <strong>DIVIDE</strong>
+                                <p>Split the array into two halves</p>
+                            </div>
+                        </div>
+                        <div class="step-arrow">→</div>
+                        <div class="step">
+                            <div class="step-number">2</div>
+                            <div class="step-content">
+                                <strong>CONQUER</strong>
+                                <p>Recursively find max in each half</p>
+                            </div>
+                        </div>
+                        <div class="step-arrow">→</div>
+                        <div class="step">
+                            <div class="step-number">3</div>
+                            <div class="step-content">
+                                <strong>COMBINE</strong>
+                                <p>Compare and return the larger value</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="complexity">
+                        <span>⏱️ Time Complexity: O(n)</span>
+                        <span>📦 Space Complexity: O(log n)</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Array Input Section -->
+            <section class="input-section">
+                <h2>📊 Array Input</h2>
+                <div class="input-controls">
+                    <div class="input-group">
+                        <input type="text" id="arrayInput" placeholder="Enter numbers separated by commas (e.g., 3, 8, 2, 10, 5, 7)">
+                        <button id="setArrayBtn" class="btn btn-primary">Set Array ➡️</button>
+                    </div>
+                    <div class="button-group">
+                        <button id="exampleBtn" class="btn btn-secondary">Load Example</button>
+                        <button id="randomBtn" class="btn btn-secondary">Generate Random</button>
+                        <button id="resetBtn" class="btn btn-danger">Reset</button>
+                    </div>
+                </div>
+                
+                <div id="currentArray" class="current-array">
+                    <strong>Current Array:</strong>
+                    <span id="arrayValues">[3, 8, 2, 10, 5, 7]</span>
+                </div>
+            </section>
+
+            <!-- Visualization Section -->
+            <section class="visualization-section">
+                <h2>🌲 Recursive Tree Visualization</h2>
+                <div id="recursionTree" class="recursion-tree">
+                    <!-- Recursive tree will be built here -->
+                </div>
+            </section>
+
+            <!-- Algorithm Execution Section -->
+            <section class="execution-section">
+                <h2>⚡ Execute Algorithm</h2>
+                <div class="execution-controls">
+                    <button id="runAlgorithmBtn" class="btn btn-success">▶ Run Divide & Conquer</button>
+                    <button id="stepByStepBtn" class="btn btn-info">👣 Step by Step</button>
+                    <button id="resetExecutionBtn" class="btn btn-secondary">Reset Steps</button>
+                </div>
+                
+                <div id="result" class="result">
+                    <p>Click "Run Algorithm" to find the maximum number! 🎯</p>
+                </div>
+                
+                <div id="stepsLog" class="steps-log">
+                    <h3>📝 Recursive Steps Log</h3>
+                    <div id="logContent" class="log-content">
+                        <p class="empty-log">No steps yet. Run the algorithm to see the recursive process.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Code Section -->
+            <section class="code-section">
+                <h2>💻 Algorithm Code</h2>
+                <div class="code-block">
+                    <pre><code>
+<span class="code-keyword">function</span> <span class="code-function">findMax</span>(arr, left = <span class="code-number">0</span>, right = arr.length - <span class="code-number">1</span>) {
+    <span class="code-comment">// Base case: only one element</span>
+    <span class="code-keyword">if</span> (left === right) {
+        <span class="code-keyword">return</span> arr[left];
+    }
+    
+    <span class="code-comment">// Divide: find the middle point</span>
+    <span class="code-keyword">const</span> mid = Math.floor((left + right) / <span class="code-number">2</span>);
+    
+    <span class="code-comment">// Conquer: recursively find max in both halves</span>
+    <span class="code-keyword">const</span> leftMax = findMax(arr, left, mid);
+    <span class="code-keyword">const</span> rightMax = findMax(arr, mid + <span class="code-number">1</span>, right);
+    
+    <span class="code-comment">// Combine: return the larger value</span>
+    <span class="code-keyword">return</span> Math.max(leftMax, rightMax);
+}
+                    </code></pre>
+                </div>
+            </section>
+        </main>
+
+        <footer>
+            <p>🧠 Divide and Conquer | Recursive algorithm for finding maximum | Base case: single element</p>
+        </footer>
+    </div>
+
+    <script type="module" src="js/app.js"></script>
+</body>
+</html>

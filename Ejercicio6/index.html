@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gift Finder | Recursion Project</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🎄 Gift Finder 🎁</h1>
+            <p>Use recursion to find your Christmas gift!</p>
+        </header>
+
+        <main>
+            <div class="gift-list-section">
+                <h2>Current Gift List:</h2>
+                <ul id="giftList" class="gift-list"></ul>
+            </div>
+
+            <div class="search-section">
+                <h3>🔍 Find a Gift</h3>
+                <div class="input-group">
+                    <input type="text" id="giftInput" placeholder="Enter gift name (e.g., Lego, Pelota)" autocomplete="off">
+                    <button id="searchBtn" class="btn btn-primary">Search Recursively</button>
+                </div>
+                <div id="resultMessage" class="result-message"></div>
+            </div>
+
+            <div class="info-section">
+                <h3>🧠 How Recursion Works Here:</h3>
+                <div class="info-content">
+                    <p><strong>Case Base 1:</strong> If index === gifts.length → Gift not found</p>
+                    <p><strong>Case Base 2:</strong> If gifts[index] === giftName → Gift found at position</p>
+                    <p><strong>Recursive Step:</strong> Call findGift(gifts, giftName, index + 1)</p>
+                </div>
+                <button id="explainBtn" class="btn btn-secondary">Show Recursion Steps</button>
+                <div id="recursionSteps" class="recursion-steps hidden"></div>
+            </div>
+        </main>
+    </div>
+
+    <script src="js/app.js"></script>
+</body>
+</html>

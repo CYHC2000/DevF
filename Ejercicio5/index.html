@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sliding Window: Longest Word Finder</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>📝 Longest Word Finder</h1>
+        <p class="description">
+            Using the <strong>Sliding Window</strong> technique to find the longest word in your text.
+        </p>
+
+        <div class="input-section">
+            <label for="textInput">Enter your paragraph:</label>
+            <textarea 
+                id="textInput" 
+                rows="5" 
+                placeholder="Type or paste your text here... Example: JavaScript is an amazing programming language to learn."
+            ></textarea>
+            <button id="findBtn" class="btn">🔍 Find Longest Word</button>
+        </div>
+
+        <div class="result-section">
+            <h2>Result:</h2>
+            <div id="result" class="result-box">
+                <span class="placeholder">Click the button to see the longest word</span>
+            </div>
+        </div>
+
+        <div class="explanation">
+            <h3>💡 How it works (Sliding Window technique):</h3>
+            <ol>
+                <li>Split the text into an array of words using <code>.split(' ')</code></li>
+                <li>Initialize a <strong>window</strong> that slides through each word</li>
+                <li>Compare each word's length with the current longest word</li>
+                <li>Update the result when a longer word is found</li>
+                <li>Return the longest word at the end</li>
+            </ol>
+        </div>
+    </div>
+
+    <script src="js/script.js"></script>
+</body>
+</html>

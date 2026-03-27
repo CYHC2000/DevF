@@ -1,0 +1,16 @@
+{
+  "name": "gestor-notas-personales",
+  "version": "1.0.0",
+  "description": "A simple note manager using Node.js fs module",
+  "main": "gestorNotas.js",
+  "scripts": {
+    "start": "node gestorNotas.js",
+    "agregar": "node gestorNotas.js agregar",
+    "listar": "node gestorNotas.js listar",
+    "eliminar": "node gestorNotas.js eliminar",
+    "ayuda": "node gestorNotas.js ayuda"
+  },
+  "keywords": ["notes", "fs", "nodejs", "learning"],
+  "author": "Your Name",
+  "license": "MIT"
+}

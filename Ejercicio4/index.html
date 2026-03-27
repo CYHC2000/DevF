@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Two Pointers Algorithm - Find Matching Guests</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🎯 Two Pointers Algorithm</h1>
+            <p>Find consecutive guests with names starting with the same letter</p>
+        </header>
+
+        <main>
+            <!-- Algorithm Explanation -->
+            <section class="explanation-section">
+                <h2>📖 How It Works</h2>
+                <div class="algorithm-visual">
+                    <div class="pointer-explanation">
+                        <div class="pointer-box pointer-left">
+                            <span class="pointer-icon">👇</span>
+                            <strong>Left Pointer (start)</strong>
+                            <span>Points to current guest</span>
+                        </div>
+                        <div class="pointer-arrow">➡️</div>
+                        <div class="pointer-box pointer-right">
+                            <span class="pointer-icon">👇</span>
+                            <strong>Right Pointer (next)</strong>
+                            <span>Points to next guest</span>
+                        </div>
+                    </div>
+                    <p class="algorithm-steps">
+                        1️⃣ Start with pointers at positions 0 and 1<br>
+                        2️⃣ Compare first letters of both names<br>
+                        3️⃣ If they match → Found a pair! 🎉<br>
+                        4️⃣ If not → Move both pointers forward<br>
+                        5️⃣ Repeat until pair is found or end of list
+                    </p>
+                </div>
+            </section>
+
+            <!-- Guest List Section -->
+            <section class="guest-section">
+                <h2>👥 Guest List</h2>
+                <div class="guest-controls">
+                    <div class="input-group">
+                        <input type="text" id="guestName" placeholder="Enter guest name..." maxlength="30">
+                        <button id="addGuestBtn" class="btn btn-primary">Add Guest ➕</button>
+                    </div>
+                    <div class="button-group">
+                        <button id="resetListBtn" class="btn btn-secondary">Reset to Default 📋</button>
+                        <button id="clearListBtn" class="btn btn-danger">Clear All 🗑️</button>
+                    </div>
+                </div>
+                
+                <div id="guestList" class="guest-list">
+                    <!-- Guest cards will be inserted here -->
+                </div>
+            </section>
+
+            <!-- Algorithm Visualization -->
+            <section class="algorithm-section">
+                <h2>🔍 Two Pointers Search</h2>
+                <div class="visualization-container">
+                    <div id="pointersVisualization" class="pointers-visual">
+                        <!-- Dynamic visualization will be inserted here -->
+                    </div>
+                    
+                    <div class="algorithm-controls">
+                        <button id="runAlgorithmBtn" class="btn btn-success">▶ Run Two Pointers Algorithm</button>
+                        <button id="stepByStepBtn" class="btn btn-info">👣 Step by Step</button>
+                        <button id="resetSearchBtn" class="btn btn-secondary">Reset Search</button>
+                    </div>
+                    
+                    <div id="algorithmResult" class="algorithm-result">
+                        <p>Click "Run Algorithm" to find the first matching pair! 🎯</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Code Display Section -->
+            <section class="code-section">
+                <h2>💻 Algorithm Code</h2>
+                <div class="code-block">
+                    <pre><code>
+<span class="code-keyword">function</span> <span class="code-function">encontrarPareja</span>(arr) {
+    <span class="code-keyword">let</span> inicio = <span class="code-number">0</span>;
+    <span class="code-keyword">let</span> siguiente = <span class="code-number">1</span>;
+    
+    <span class="code-keyword">while</span> (siguiente < arr.length) {
+        <span class="code-comment">// Get first letters of both names</span>
+        <span class="code-keyword">const</span> letra1 = arr[inicio][<span class="code-number">0</span>].toUpperCase();
+        <span class="code-keyword">const</span> letra2 = arr[siguiente][<span class="code-number">0</span>].toUpperCase();
+        
+        <span class="code-comment">// Compare initials</span>
+        <span class="code-keyword">if</span> (letra1 === letra2) {
+            <span class="code-keyword">return</span> [arr[inicio], arr[siguiente]];
+        }
+        
+        <span class="code-comment">// Move both pointers forward</span>
+        inicio++;
+        siguiente++;
+    }
+    
+    <span class="code-keyword">return</span> <span class="code-keyword">null</span>;
+}
+                    </code></pre>
+                </div>
+            </section>
+        </main>
+
+        <footer>
+            <p>🎯 Two Pointers Algorithm | Time Complexity: O(n) | Space Complexity: O(1)</p>
+        </footer>
+    </div>
+
+    <script type="module" src="js/app.js"></script>
+</body>
+</html>

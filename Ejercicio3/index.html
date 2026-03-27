@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Store - Filter & Sort Products</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🛍️ Product Store</h1>
+            <p>Filter, sort, and manage your products</p>
+        </header>
+
+        <main>
+            <!-- Product Statistics Section -->
+            <section class="stats-section">
+                <h2>📊 Store Statistics</h2>
+                <div id="stats" class="stats-grid">
+                    <!-- Stats will be inserted here -->
+                </div>
+            </section>
+
+            <!-- Filter Controls -->
+            <section class="filter-section">
+                <h2>🔍 Filter Products</h2>
+                <div class="filter-controls">
+                    <div class="filter-group">
+                        <label>Price Range:</label>
+                        <div class="price-buttons">
+                            <button class="filter-btn active" data-filter="all">All Products</button>
+                            <button class="filter-btn" data-filter="under50">Under $50</button>
+                            <button class="filter-btn" data-filter="under100">Under $100</button>
+                            <button class="filter-btn" data-filter="over100">$100 & Above</button>
+                        </div>
+                    </div>
+                    
+                    <div class="filter-group">
+                        <label>Sort By:</label>
+                        <div class="sort-buttons">
+                            <button class="sort-btn active" data-sort="name">Name (A-Z)</button>
+                            <button class="sort-btn" data-sort="price-low">Price (Low to High)</button>
+                            <button class="sort-btn" data-sort="price-high">Price (High to Low)</button>
+                            <button class="sort-btn" data-sort="category">Category</button>
+                        </div>
+                    </div>
+                    
+                    <div class="filter-group">
+                        <label>Category Filter:</label>
+                        <select id="categoryFilter" class="category-select">
+                            <option value="all">All Categories</option>
+                        </select>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Products Display -->
+            <section class="products-section">
+                <div class="products-header">
+                    <h2>📦 Products</h2>
+                    <div id="resultsCount" class="results-count">Showing 0 products</div>
+                </div>
+                <div id="productsList" class="products-grid">
+                    <!-- Products will be inserted here -->
+                </div>
+            </section>
+
+            <!-- Console Output Section (for learning) -->
+            <section class="console-section">
+                <h2>💻 Array Methods Output (Console)</h2>
+                <div class="console-output">
+                    <p>📌 Open the browser console (F12) to see the results of:</p>
+                    <ul>
+                        <li>✅ <strong>filter()</strong> - Products under $100</li>
+                        <li>✅ <strong>sort()</strong> - Products sorted alphabetically</li>
+                        <li>✅ <strong>map()</strong> - Array of product names only</li>
+                        <li>✅ <strong>reduce()</strong> - Total value of inventory</li>
+                        <li>✅ <strong>some()</strong> - Check if expensive products exist</li>
+                        <li>✅ <strong>every()</strong> - Check if all products have prices</li>
+                        <li>✅ <strong>includes()</strong> - Check category availability</li>
+                    </ul>
+                    <button id="showConsoleBtn" class="btn btn-info">📢 Show Console Results</button>
+                </div>
+            </section>
+        </main>
+
+        <footer>
+            <p>💡 Learning Array Methods: filter() | sort() | map() | reduce() | some() | every() | includes()</p>
+        </footer>
+    </div>
+
+    <script type="module" src="js/app.js"></script>
+</body>
+</html>
