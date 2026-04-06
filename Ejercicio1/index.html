@@ -1,87 +1,82 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Travel Planner - Plan Your Next Adventure</title>
+    <title>Planificador de viajes</title>
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
     <div class="container">
         <header>
-            <h1>✈️ Travel Planner</h1>
-            <p>Plan your next adventure!</p>
+            <h1>Planificador de viajes</h1>
+            <p>¡Planifica tu próxima aventura!</p>
         </header>
 
         <main>
-            <!-- Form to register destinations -->
             <section class="form-section">
-                <h2>Register New Destination</h2>
                 <form id="destinationForm">
-                    <div class="form-group">
-                        <label for="destination">Destination:</label>
-                        <input type="text" id="destination" name="destination" required 
-                               placeholder="e.g., Paris, France">
-                    </div>
 
                     <div class="form-group">
-                        <label for="date">Travel Date:</label>
-                        <input type="date" id="date" name="date" required>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="transport">Transportation:</label>
-                        <select id="transport" name="transport" required>
-                            <option value="plane">Plane ✈️</option>
-                            <option value="train">Train 🚂</option>
-                            <option value="bus">Bus 🚌</option>
-                            <option value="car">Car 🚗</option>
+                        <label for="destination">Destino:</label>
+                        <select id="destination" name="destination" required>
+                            <option value="" disabled selected>Elige un destino</option>
+                            <option value="paris">Paris</option>
+                            <option value="londres">Londres</option>
+                            <option value="nueva york">Nueva York</option>
+                            <option value="sydney">Sydney</option>
+                            <option value="toronto">Toronto</option>
+                            <option value="ciudad de méxico">Ciudad de México</option>
+                            <option value="honkong">Hong Kong</option>
+                            <option value="rio de janeiro">Rio de Janeiro</option>
                         </select>
                     </div>
 
                     <div class="form-group">
-                        <label for="nights">Number of Nights:</label>
-                        <input type="number" id="nights" name="nights" min="1" max="30" value="3" required>
+                        <label for="date">Fecha de inicio:</label>
+                        <input type="date" id="date" name="date" required>
                     </div>
 
                     <div class="form-group">
-                        <label for="people">Number of People:</label>
-                        <input type="number" id="people" name="people" min="1" max="10" value="1" required>
+                        <label for="nights">Número de noches:</label>
+                        <input type="number" id="nights" name="nights" min="1" max="30" value="0" required>
                     </div>
 
-                    <button type="submit" class="btn btn-primary">Register Destination</button>
+                    <div class="form-group">
+                        <label for="people">Número de personas:</label>
+                        <input type="number" id="people" name="people" min="1" max="10" value="0" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="transport">Transporte:</label>
+                        <select id="transport" name="transport" required>
+                            <option value="" disabled selected> Elige un transporte</option>
+                            <option value="plane">✈️ Avión</option>
+                            <option value="train">🚂 Tren</option>
+                            <option value="bus">🚌 Autobús</option>
+                            <option value="car">🚗 Coche</option>
+                        </select>
+                    </div>
+
+                    
+                    <div class="btn-group"><button type="button" id="calculateBtn" class="btn btn-secondary">Calcular costos</button></div>
+                    <div id="costResult" class="cost-result" style="display:none;">
+                    </div>
+                    <div class="btn-group"><button type="submit" id="submit" class="btn btn-primary" style="display:none;">Registrar</button></div>
+
                 </form>
             </section>
 
-            <!-- Section to show itinerary -->
             <section class="itinerary-section">
-                <h2>My Travel Itinerary</h2>
+                <h2>Viajes registrados</h2>
                 <div id="itineraryList" class="itinerary-list">
-                    <p class="empty-message">No destinations registered yet. Add your first destination!</p>
+                    <p class="empty-message">Aún no tienes aventuras registradas.</p>
                 </div>
-            </section>
-
-            <!-- Section to calculate total cost -->
-            <section class="cost-section">
-                <h2>Calculate Trip Cost</h2>
-                <div class="cost-controls">
-                    <select id="costDestination" class="cost-select">
-                        <option value="">Select a destination</option>
-                    </select>
-                    <select id="costTransport" class="cost-select">
-                        <option value="plane">Plane ✈️</option>
-                        <option value="train">Train 🚂</option>
-                        <option value="bus">Bus 🚌</option>
-                        <option value="car">Car 🚗</option>
-                    </select>
-                    <button id="calculateBtn" class="btn btn-secondary">Calculate Cost</button>
-                </div>
-                <div id="costResult" class="cost-result"></div>
             </section>
         </main>
 
         <footer>
-            <p>© 2024 Travel Planner - Plan your adventures wisely!</p>
+            <p>© 2024 Planificador de viajes</p>
         </footer>
     </div>
 
