@@ -3,51 +3,43 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Shopping List Manager - Organize Your Shopping</title>
+    <link rel="icon" href="../Ejercicio2/img/compras.png" type="image/png">
+    <title>Tu lista de compras</title>
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
     <div class="container">
         <header>
-            <h1>🛒 Shopping List Manager</h1>
-            <p>Add, remove, and manage your shopping items</p>
+            <h1>Lista de compras de adulto independiente</h1>
+            <p>¡Que no se te olvide nada!</p>
         </header>
 
         <main>
-            <!-- Add Product Section -->
+            <!-- Add Section -->
             <section class="add-section">
-                <h2>Add New Product</h2>
+                <h2>Agrega productos a tu lista de compras</h2>
                 <div class="input-group">
-                    <input type="text" id="productInput" placeholder="Enter product name..." maxlength="50">
-                    <button id="addBtn" class="btn btn-primary">Add Product ➕</button>
+                    <input type="text" id="productInput" placeholder="Ingresa el nombre..." maxlength="50">
+                    <button id="addBtn" class="btn btn-primary">Agregar</button>
                 </div>
                 <p id="errorMessage" class="error-message"></p>
             </section>
 
-            <!-- Shopping List Section -->
+            <!-- List Section -->
             <section class="list-section">
-                <h2>My Shopping List</h2>
+                <h2>Esto es lo que llevas agregado:</h2>
                 <div class="list-stats">
-                    <span id="itemCount">Total items: 0</span>
-                    <button id="clearAllBtn" class="btn btn-danger">Clear All 🗑️</button>
+                    <span id="itemCount">Productos:</span>
+                    <button id="clearAllBtn" class="btn btn-danger">Limpiar</button>
                 </div>
                 <div id="shoppingList" class="shopping-list">
-                    <p class="empty-message">Your shopping list is empty. Add some products! 🛍️</p>
-                </div>
-            </section>
-
-            <!-- Quick Actions Section -->
-            <section class="actions-section">
-                <h2>Quick Actions</h2>
-                <div class="action-buttons">
-                    <button id="sampleItemsBtn" class="btn btn-secondary">Add Sample Items 📝</button>
-                    <button id="sortBtn" class="btn btn-secondary">Sort Alphabetically 🔤</button>
+                    <p class="empty-message">Tu lista está vacía. Agrega los productos necesarios  para un adulto independiente...</p>
                 </div>
             </section>
         </main>
 
         <footer>
-            <p>💡 Tip: Products are case-insensitive - "Milk" and "milk" are the same!</p>
+            <p>Primero esta en la lista y luego existe...</p>
         </footer>
     </div>
 

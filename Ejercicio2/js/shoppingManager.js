@@ -1,129 +1,109 @@
-// Shopping List Manager Module
-// Using array as the main data structure
+// Módulo de lista de compras
+// Usa un arreglo como estructura principal
 
-// Initialize empty array for shopping list - Using const for array reference
+// Inicializa arreglo vacío para la lista de compras
 const shoppingList = [];
 
-// Function to add a product (arrow function)
-// Prevents duplicate products (case-insensitive)
+// Función para agregar un producto
+// Evita duplicados sin distinguir mayúsculas/minúsculas
 export const addProduct = (product) => {
-    // Trim whitespace and validate
+    // Elimina espacios y valida
     const trimmedProduct = product.trim();
     
     if (!trimmedProduct) {
-        throw new Error('Product name cannot be empty');
+        throw new Error('No se puede agregar un producto vacío');
     }
     
-    // Convert to lowercase for case-insensitive comparison
+    // Convierte a minúsculas para comparar
     const productLower = trimmedProduct.toLowerCase();
     
-    // Check for duplicates (using some method)
+    // Verifica duplicados
     const isDuplicate = shoppingList.some(item => 
         item.name.toLowerCase() === productLower
     );
     
     if (isDuplicate) {
-        throw new Error(`"${trimmedProduct}" is already in your shopping list!`);
+        throw new Error(`¡"${trimmedProduct}", ya está en tu lista!`);
     }
     
-    // Create product object with additional info
+    // Crea objeto producto con datos adicionales
     const newProduct = {
-        id: Date.now(), // Unique ID for each product
+        id: Date.now(),
         name: trimmedProduct,
         addedAt: new Date().toLocaleString(),
         completed: false
     };
     
-    // Add to array
+    // Agrega al arreglo
     shoppingList.push(newProduct);
     return newProduct;
 };
 
-// Function to remove a product (arrow function)
-// Can remove by name or by ID
+// Función para eliminar un producto
+// Permite eliminar por nombre o ID
 export const removeProduct = (identifier) => {
-    // Find the index of the product
+    // Busca el índice del producto
     const index = shoppingList.findIndex(item => 
         item.id === identifier || 
         item.name.toLowerCase() === identifier.toLowerCase()
     );
     
     if (index === -1) {
-        throw new Error('Product not found in the shopping list');
+        throw new Error('No se puede eliminar lo que no existe');
     }
     
-    // Remove product from array
+    // Elimina el producto del arreglo
     const removedProduct = shoppingList.splice(index, 1)[0];
     return removedProduct;
 };
 
-// Function to remove product by ID (arrow function)
+// Función para eliminar por ID
 export const removeProductById = (id) => {
     const index = shoppingList.findIndex(item => item.id === id);
     
     if (index === -1) {
-        throw new Error('Product not found');
+        throw new Error('Error al eliminar el producto');
     }
     
     const removedProduct = shoppingList.splice(index, 1)[0];
     return removedProduct;
 };
 
-// Function to get all products (arrow function)
+// Función para obtener todos los productos
 export const getAllProducts = () => {
-    // Return a copy of the array to avoid direct manipulation
+    // Devuelve copia para evitar modificaciones directas
     return [...shoppingList];
 };
 
-// Function to get product count (arrow function)
+// Función para contar productos
 export const getProductCount = () => {
     return shoppingList.length;
 };
 
-// Function to check if product exists (arrow function)
+// Función para verificar existencia de un producto
 export const productExists = (productName) => {
     return shoppingList.some(item => 
         item.name.toLowerCase() === productName.toLowerCase()
     );
 };
 
-// Function to clear all products (arrow function)
+// Función para limpiar todos los productos
 export const clearAllProducts = () => {
-    shoppingList.length = 0; // Clear the array
+    shoppingList.length = 0; // Vacía el arreglo
 };
 
-// Function to sort products alphabetically (arrow function)
+// Función para ordenar alfabéticamente
 export const sortProductsAlphabetically = () => {
     shoppingList.sort((a, b) => a.name.localeCompare(b.name));
     return [...shoppingList];
 };
 
-// Function to add multiple products at once (arrow function)
-export const addMultipleProducts = (products) => {
-    const addedProducts = [];
-    const errors = [];
-    
-    products.forEach(product => {
-        try {
-            const added = addProduct(product);
-            addedProducts.push(added);
-        } catch (error) {
-            errors.push(`${product}: ${error.message}`);
-        }
-    });
-    
-    return {
-        added: addedProducts,
-        errors: errors
-    };
-};
-
-// Function to get product by ID (arrow function)
+// Función para obtener producto por ID
 export const getProductById = (id) => {
     return shoppingList.find(item => item.id === id);
 };
 
-// Function to search products (arrow function)
+// Función para buscar productos
 export const searchProducts = (searchTerm) => {
     const term = searchTerm.toLowerCase();
     return shoppingList.filter(item => 

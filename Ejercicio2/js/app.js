@@ -1,15 +1,13 @@
-// Main Application Module - Handles user interface and events
+// Módulo principal - Maneja interfaz y eventos
 import { 
     addProduct, 
     removeProductById, 
     getAllProducts, 
     getProductCount,
     clearAllProducts,
-    sortProductsAlphabetically,
-    addMultipleProducts
 } from './shoppingManager.js';
 
-// DOM Elements - Using const for elements that won't be reassigned
+// Elementos del DOM
 const productInput = document.getElementById('productInput');
 const addBtn = document.getElementById('addBtn');
 const shoppingListDiv = document.getElementById('shoppingList');
@@ -19,12 +17,12 @@ const sampleItemsBtn = document.getElementById('sampleItemsBtn');
 const sortBtn = document.getElementById('sortBtn');
 const errorMessage = document.getElementById('errorMessage');
 
-// Function to show error message (arrow function)
+// Muestra mensaje de error
 const showError = (message) => {
     errorMessage.textContent = message;
     errorMessage.style.color = '#dc3545';
     
-    // Clear error after 3 seconds
+    // Limpia el mensaje después de 3 segundos
     setTimeout(() => {
         if (errorMessage.textContent === message) {
             errorMessage.textContent = '';
@@ -32,12 +30,12 @@ const showError = (message) => {
     }, 3000);
 };
 
-// Function to show success message (arrow function)
+// Muestra mensaje de éxito
 const showSuccess = (message) => {
     errorMessage.textContent = message;
     errorMessage.style.color = '#28a745';
     
-    // Clear message after 2 seconds
+    // Limpia el mensaje después de 2 segundos
     setTimeout(() => {
         if (errorMessage.textContent === message) {
             errorMessage.textContent = '';
@@ -45,34 +43,33 @@ const showSuccess = (message) => {
     }, 2000);
 };
 
-// Function to render the shopping list (arrow function)
+// Renderiza la lista de compras
 const renderShoppingList = () => {
     const products = getAllProducts();
     const count = getProductCount();
     
-    // Update item count
-    itemCountSpan.textContent = `Total items: ${count}`;
+    // Actualiza el contador
+    itemCountSpan.textContent = `Productos en total: ${count}`;
     
-    // Check if list is empty
+    // Verifica si está vacía
     if (products.length === 0) {
-        shoppingListDiv.innerHTML = '<p class="empty-message">Your shopping list is empty. Add some products! 🛍️</p>';
+        shoppingListDiv.innerHTML = '<p class="empty-message">Agrega productos necesarios para un adulto independiente...</p>';
         return;
     }
     
-    // Generate HTML for each product using map
+    // Genera HTML por producto
     const productsHTML = products.map(product => {
-        // Format the added date nicely
+        // Formatea fecha y hora
         const addedDate = new Date(product.addedAt).toLocaleDateString();
         const addedTime = new Date(product.addedAt).toLocaleTimeString();
         
         return `
             <div class="product-item" data-id="${product.id}">
                 <div class="product-name">
-                    <span>${escapeHtml(product.name)}</span>
-                    <small style="font-size: 12px; color: #999;">(Added: ${addedDate} ${addedTime})</small>
+                    <span style = "text-transform: uppercase;">${escapeHtml(product.name)}</span>
                 </div>
                 <div class="product-actions">
-                    <button class="delete-product" data-id="${product.id}">Remove ✖️</button>
+                    <button class="delete-product" data-id="${product.id}">Quitar</button>
                 </div>
             </div>
         `;
@@ -80,14 +77,14 @@ const renderShoppingList = () => {
     
     shoppingListDiv.innerHTML = productsHTML;
     
-    // Add event listeners to delete buttons
+    // Asigna eventos a botones de eliminar
     document.querySelectorAll('.delete-product').forEach(button => {
         button.addEventListener('click', (e) => {
             const id = parseInt(button.dataset.id);
             try {
                 removeProductById(id);
                 renderShoppingList();
-                showSuccess('Product removed successfully!');
+                showSuccess('¡Producto eliminado correctamente!');
             } catch (error) {
                 showError(error.message);
             }
@@ -95,23 +92,23 @@ const renderShoppingList = () => {
     });
 };
 
-// Helper function to escape HTML (prevent XSS attacks)
+// Escapa HTML para evitar XSS
 const escapeHtml = (text) => {
     const div = document.createElement('div');
     div.textContent = text;
     return div.innerHTML;
 };
 
-// Function to add product from input (arrow function)
+// Agrega producto desde el input
 const handleAddProduct = () => {
     const productName = productInput.value;
     
     try {
         const newProduct = addProduct(productName);
         renderShoppingList();
-        showSuccess(`✅ "${newProduct.name}" added to your shopping list!`);
-        productInput.value = ''; // Clear input
-        productInput.focus(); // Focus back on input
+        showSuccess(`"${newProduct.name}". ¡Anotado!`);
+        productInput.value = ''; // Limpia input
+        productInput.focus(); // Regresa foco
     } catch (error) {
         showError(error.message);
         productInput.classList.add('error');
@@ -119,69 +116,46 @@ const handleAddProduct = () => {
     }
 };
 
-// Function to add sample items (arrow function)
-const addSampleItems = () => {
-    const sampleProducts = ['Milk', 'Bread', 'Eggs', 'Apples', 'Coffee'];
-    
-    const result = addMultipleProducts(sampleProducts);
-    
-    if (result.added.length > 0) {
-        renderShoppingList();
-        showSuccess(`Added ${result.added.length} sample products!`);
-    }
-    
-    if (result.errors.length > 0) {
-        console.log('Errors adding some products:', result.errors);
-    }
-};
-
-// Function to handle sort (arrow function)
-const handleSort = () => {
-    sortProductsAlphabetically();
-    renderShoppingList();
-    showSuccess('Shopping list sorted alphabetically! 🔤');
-};
-
-// Function to handle clear all (arrow function)
+// Maneja limpiar lista
 const handleClearAll = () => {
     if (getProductCount() === 0) {
-        showError('Shopping list is already empty!');
+        showError('Tu lista está vacía');
         return;
     }
     
-    // Confirm before clearing
-    const confirmClear = confirm('Are you sure you want to clear your entire shopping list?');
+    // Confirma antes de eliminar
+    const confirmClear = confirm('¿Estás seguro de eliminar tu lista de compras?');
     
     if (confirmClear) {
         clearAllProducts();
         renderShoppingList();
-        showSuccess('Shopping list cleared! 🗑️');
+        showSuccess('Se ha vaciado tu lista');
     }
 };
 
-// Function to handle enter key press (arrow function)
+// Maneja tecla Enter
 const handleKeyPress = (event) => {
     if (event.key === 'Enter') {
         handleAddProduct();
     }
 };
 
-// Function to initialize the application (arrow function)
+// Inicializa la aplicación
 const init = () => {
-    // Load initial state
+    // Carga estado inicial
     renderShoppingList();
     
-    // Add event listeners
+    // Asigna eventos
     addBtn.addEventListener('click', handleAddProduct);
     productInput.addEventListener('keypress', handleKeyPress);
     clearAllBtn.addEventListener('click', handleClearAll);
     sampleItemsBtn.addEventListener('click', addSampleItems);
     sortBtn.addEventListener('click', handleSort);
     
-    // Focus on input field
+    // Enfoca el input
     productInput.focus();
     
-    // Add CSS class for error animation
+    // Agrega estilos para error
     const style = document.createElement('style');
     style.textContent = `
         .error {
@@ -198,5 +172,5 @@ const init = () => {
     document.head.appendChild(style);
 };
 
-// Start the application when DOM is loaded
+// Inicia al cargar el DOM
 document.addEventListener('DOMContentLoaded', init);
