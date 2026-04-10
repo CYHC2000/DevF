@@ -51,34 +51,47 @@ const gifts = [
     "Bolso"
 ];
 
-function grouped(arr){
-    const alphabeticOrder = Object.groupBy(gifts, (letter) => letter[0].toUpperCase());
+// Crear un Map para búsqueda rápida
+const giftMap = new Map();
+gifts.forEach(gift => giftMap.set(gift, true));
 
-    return{
-        alphabeticOrder
+function findGiftMap(gift) {
+    if (giftMap.has(gift)) {
+        return "Regalo encontrado: " + gift + ".\nPuedes regalarlo";
+    } else {
+        return "Lo siento, no puedes darle ese regalo";
     }
 }
 
+const searchBtn = document.getElementById('searchBtn');
+const giftInput = document.getElementById('giftInput');
+const resultMessage = document.getElementById('resultMessage');
 
-function findGift(arr,gift){
-    let i = 0
-    let j = 0
-    let flag = false
-    let find = false
-    let giftLetters = gift.toUpperCase().split('')
-
-    while(i < arr.length || flag == true ){
-
-        if(giftLetters.includes(arr[i])){
-            flag = true
-            while(j < arr[i].length || find == true){
-                if(arr[i][j] == gift)
-            }
-        } else{
-            i++
-        }
-
+function handleSearch() {
+    const giftName = giftInput.value.trim();
+    
+    if (giftName === "") {
+        resultMessage.textContent = "Por favor, ingresa el nombre de un regalo";
+        resultMessage.className = "result-message error";
+        return;
     }
+    
+    const result = findGiftMap(giftName);
+    resultMessage.textContent = result;
+    
+    if (result.includes("encontrado")) {
+        resultMessage.className = "result-message success";
+    } else {
+        resultMessage.className = "result-message error";
+    }
+    
+    giftInput.value = "";
 }
 
-console.log(grouped(gifts).alphabeticOrder)
+searchBtn.addEventListener('click', handleSearch);
+
+giftInput.addEventListener('keypress', function(event) {
+    if (event.key === 'Enter') {
+        handleSearch();
+    }
+});

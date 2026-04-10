@@ -6,19 +6,25 @@
 
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(135deg, #e9f5f9 0%, #d4e7ed 100%);
     min-height: 100vh;
     padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
 .container {
     max-width: 800px;
+    width: 100%;
     margin: 0 auto;
-    background: white;
-    border-radius: 20px;
-    box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+    background: #c8c6c0;
+    border-radius: 50px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
     overflow: hidden;
     animation: fadeIn 0.5s ease-in;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 @keyframes fadeIn {
@@ -33,10 +39,13 @@ body {
 }
 
 header {
-    background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-    color: white;
-    padding: 30px;
+    background: #adaca8;
+    color: #e9f5f9;
+    padding: 50px;
     text-align: center;
+    border-bottom-left-radius: 50px;
+    border-bottom-right-radius: 50px;
+    margin-bottom: 30px;
 }
 
 header h1 {
@@ -45,48 +54,16 @@ header h1 {
 }
 
 header p {
-    font-size: 1.1rem;
+    font-size: 1.5rem;
     opacity: 0.9;
 }
 
-main {
-    padding: 30px;
-}
-
-.gift-list-section {
-    background: #f8f9fa;
-    border-radius: 10px;
-    padding: 20px;
-    margin-bottom: 30px;
-}
-
-.gift-list-section h2 {
-    color: #333;
-    margin-bottom: 15px;
-    font-size: 1.3rem;
-}
-
-.gift-list {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    list-style: none;
-}
-
-.gift-list li {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    color: white;
-    padding: 8px 16px;
-    border-radius: 20px;
-    font-weight: 500;
-    font-size: 0.9rem;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-}
-
 .search-section {
+    width: 80%;
+    margin: 0 auto;
     background: #fff;
     border: 2px solid #e0e0e0;
-    border-radius: 10px;
+    border-radius: 50px;
     padding: 20px;
     margin-bottom: 30px;
 }
@@ -106,21 +83,21 @@ main {
     flex: 1;
     padding: 12px;
     border: 2px solid #e0e0e0;
-    border-radius: 8px;
+    border-radius: 50px;
     font-size: 1rem;
     transition: border-color 0.3s;
 }
 
 #giftInput:focus {
     outline: none;
-    border-color: #667eea;
+    border-color: #dfc9b2;
 }
 
 .btn {
-    padding: 12px 24px;
+    padding: 16px 24px;
     border: none;
     border-radius: 8px;
-    font-size: 1rem;
+    font-size: 1.2rem;
     font-weight: 600;
     cursor: pointer;
     transition: transform 0.2s, box-shadow 0.2s;
@@ -132,19 +109,14 @@ main {
 }
 
 .btn-primary {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    color: white;
+    background: #e9f5f9;
+    color: #adaca8;
 }
 
-.btn-secondary {
-    background: #6c757d;
-    color: white;
-    margin-top: 10px;
-}
 
 .result-message {
     padding: 15px;
-    border-radius: 8px;
+    border-radius: 50px;
     font-weight: 500;
     text-align: center;
     animation: slideIn 0.3s ease-out;
@@ -173,65 +145,6 @@ main {
     border: 1px solid #f5c6cb;
 }
 
-.info-section {
-    background: #f8f9fa;
-    border-radius: 10px;
-    padding: 20px;
-}
-
-.info-section h3 {
-    color: #333;
-    margin-bottom: 15px;
-}
-
-.info-content {
-    background: white;
-    padding: 15px;
-    border-radius: 8px;
-    margin-bottom: 15px;
-}
-
-.info-content p {
-    margin: 10px 0;
-    color: #555;
-    font-family: monospace;
-    font-size: 0.9rem;
-}
-
-.recursion-steps {
-    background: #2d3748;
-    color: #e2e8f0;
-    padding: 15px;
-    border-radius: 8px;
-    margin-top: 15px;
-    font-family: monospace;
-    font-size: 0.85rem;
-    max-height: 300px;
-    overflow-y: auto;
-}
-
-.recursion-steps h4 {
-    color: #90cdf4;
-    margin-bottom: 10px;
-}
-
-.recursion-steps p {
-    margin: 5px 0;
-    padding: 5px;
-    border-left: 3px solid #667eea;
-}
-
-.recursion-steps .step-base {
-    color: #fbbf24;
-}
-
-.recursion-steps .step-recursive {
-    color: #90cdf4;
-}
-
-.hidden {
-    display: none;
-}
 
 @media (max-width: 600px) {
     .input-group {
