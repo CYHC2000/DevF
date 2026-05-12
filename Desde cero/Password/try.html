@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>Mundial 2026 - Calendario Oficial</title>
+    <!-- Tailwind CSS v3 -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome 6 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Google Font: Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; -webkit-tap-highlight-color: transparent; }
+        .group-filter.active { background-color: #2563eb; color: white; }
+        .tab-active { color: #2563eb; border-bottom: 2px solid #2563eb; }
+        .flag-icon { width: 1.5rem; height: 1rem; object-fit: cover; border-radius: 2px; box-shadow: 0 1px 2px rgba(0,0,0,0.1); }
+        /* Ocultar scrollbar en carrusel */
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+        /* Banner simplificado: fondo imagen 16:9, cuadro blanco más pequeño (1/3 más chico) */
+        .next-match-banner {
+            position: relative;
+            overflow: hidden;
+            border-radius: 1rem;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+        .banner-content {
+            background-color: white;
+            border-radius: 0.75rem;
+            padding: 0.6rem 0.8rem;  /* más compacto que antes */
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            color: #1f2937;
+            max-width: 75%;           /* más estrecho para que resalte la imagen */
+            margin-left: auto;
+            margin-right: auto;
+        }
+        /* textos más pequeños dentro del cuadro */
+        .banner-content .text-sm {
+            font-size: 0.7rem;        /* el título más pequeño */
+        }
+        .banner-content #countdown-display {
+            font-size: 1.5rem;         /* de 1.875rem a 1.5rem (aprox 20% más chico) */
+        }
+        .banner-content .flex.items-center.gap-1 {
+            gap: 0.2rem;               /* reducir espacio entre elementos */
+        }
+        .banner-content #next-stage {
+            font-size: 0.65rem;
+            padding: 0.2rem 0.5rem;
+        }
+        /* VS dentro del span de equipos ya no se duplica, se controla por JS */
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800 antialiased">
+
+<div class="max-w-lg mx-auto p-4 pb-8">
+    <!-- Header negro con logo FIFA izquierda y título derecha -->
+    <div class="bg-black text-white rounded-2xl p-4 mb-5 flex items-center justify-between shadow-lg">
+        <div class="flex items-center">
+            <img src="https://digitalhub.fifa.com/transform/157d23bf-7e13-4d7b-949e-5d27d340987e/WC26_Logo?io=transform:fill,height:48&quality=75" 
+                 alt="FIFA 2026 Logo" 
+                 class="h-10 w-auto object-contain">
+        </div>
+        <div class="text-right">
+            <div class="text-sm font-bold uppercase tracking-wider">México · USA · Canadá</div>
+            <div class="text-xs text-gray-300">11 jun - 19 jul 2026</div>
+        </div>
+    </div>
+
+    <!-- Contador próximo partido con fondo 16:9 y cuadro blanco más pequeño -->
+    <div id="countdown-card" class="next-match-banner text-white rounded-2xl p-5 shadow-lg mb-6 text-center relative overflow-hidden" 
+         style="background-image: url('https://dl-textit.s3.amazonaws.com/orgs/74031/media/2eff/2eff9836-dd3d-4e79-85cc-a472472cace3/Gemini_Generated_Image_g1q2ovg1q2ovg1q2.jpg');">
+        <div class="banner-content relative z-10">
+            <div class="text-xs uppercase tracking-wider opacity-90 flex items-center justify-center gap-1 font-bold text-gray-800">
+                <i class="fas fa-hourglass-half" style="font-size: 0.7rem;"></i> <span>PRÓXIMO PARTIDO</span>
+            </div>
+            <div id="countdown-display" class="font-bold mt-0.5 tabular-nums text-gray-800">--d --h --m --s</div>
+            <!-- Contenedor de equipos y grupo: ya no hay un span VS extra -->
+            <div id="next-match-info" class="text-xs mt-1 font-medium flex items-center justify-center gap-1 flex-wrap bg-gray-100 bg-opacity-80 py-1 px-2 rounded-full">
+                <span id="next-teams" class="flex items-center gap-1"></span>
+                <span id="next-stage" class="bg-yellow-400 text-black px-2 py-0.5 rounded-full text-xs"></span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Filtros y búsqueda -->
+    <div class="mb-5">
+        <!-- Carrusel de filtros de grupo (horizontal) -->
+        <div id="group-filters-container" class="flex flex-nowrap overflow-x-auto space-x-2 pb-2 no-scrollbar" style="-webkit-overflow-scrolling: touch;"></div>
+        <!-- Búsqueda -->
+        <div class="relative mt-2">
+            <i class="fas fa-search absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-sm"></i>
+            <input type="text" id="search-input" placeholder="Buscar equipo..." class="w-full pl-9 pr-4 py-2.5 border border-gray-300 rounded-xl text-sm focus:ring-2 focus:ring-blue-300 focus:border-blue-500 outline-none bg-white">
+        </div>
+    </div>
+
+    <!-- Tabs: Partidos / Grupos -->
+    <div class="flex gap-2 border-b border-gray-200 mb-4">
+        <button id="tab-matches" class="tab-button px-4 py-2 font-semibold text-blue-600 tab-active">Partidos</button>
+        <button id="tab-groups" class="tab-button px-4 py-2 font-semibold text-gray-500">Grupos</button>
+    </div>
+
+    <!-- Vista de Partidos -->
+    <div id="matches-view">
+        <div id="matches-list" class="space-y-3"></div>
+        <div id="no-matches" class="text-center py-8 text-gray-500 hidden">
+            <i class="fas fa-futbol text-3xl mb-2"></i>
+            <p>No hay partidos con esos filtros</p>
+        </div>
+    </div>
+
+    <!-- Vista de Grupos -->
+    <div id="groups-view" class="hidden space-y-5">
+        <!-- Se llena con JS -->
+    </div>
+
+    <!-- Footer -->
+    <div class="text-xs text-center text-gray-400 mt-6">
+        Fuente: FIFA.com · Datos oficiales
+    </div>
+</div>
+
+<script>
+(function() {
+    // Mapeo de nombres de equipos a códigos de país ISO
+    const countryCodes = {
+        "México": "mx", "Sudáfrica": "za", "República de Corea": "kr", "Play-off 1": "un",
+        "Canadá": "ca", "Play-off 2": "un", "EE. UU.": "us", "Paraguay": "py",
+        "Catar": "qa", "Suiza": "ch", "Brasil": "br", "Marruecos": "ma",
+        "Haití": "ht", "Escocia": "gb-sct", "Australia": "au", "Play-off 3": "un",
+        "Alemania": "de", "Curazao": "cw", "Países Bajos": "nl", "Japón": "jp",
+        "Costa de Marfil": "ci", "Ecuador": "ec", "Play-off 4": "un", "Túnez": "tn",
+        "España": "es", "Islas de Cabo Verde": "cv", "Bélgica": "be", "Egipto": "eg",
+        "Arabia Saudí": "sa", "Uruguay": "uy", "RI de Irán": "ir", "Nueva Zelanda": "nz",
+        "Francia": "fr", "Senegal": "sn", "Play-off 5": "un", "Noruega": "no",
+        "Argentina": "ar", "Argelia": "dz", "Austria": "at", "Jordania": "jo",
+        "Portugal": "pt", "Play-off 6": "un", "Uzbekistán": "uz", "Colombia": "co",
+        "Inglaterra": "gb-eng", "Croacia": "hr", "Ghana": "gh", "Panamá": "pa",
+        // Eliminatorias (códigos genéricos)
+        "2A": "un", "2B": "un", "1C": "un", "2F": "un", "1E": "un", "3ABCDF": "un",
+        "1F": "un", "2C": "un", "2E": "un", "2I": "un", "1I": "un", "3CDFGH": "un",
+        "1A": "un", "3CEFHI": "un", "1L": "un", "3EHIJK": "un", "1G": "un", "3AEHIJ": "un",
+        "1D": "un", "3BEFIJ": "un", "1H": "un", "2J": "un", "2K": "un", "2L": "un",
+        "1B": "un", "3EFGIJ": "un", "2D": "un", "2G": "un", "1J": "un", "2H": "un",
+        "1K": "un", "3DEIJL": "un", "W73": "un", "W75": "un", "W74": "un", "W77": "un",
+        "W76": "un", "W78": "un", "W79": "un", "W80": "un", "W83": "un", "W84": "un",
+        "W81": "un", "W82": "un", "W86": "un", "W88": "un", "W85": "un", "W87": "un",
+        "W89": "un", "W90": "un", "W93": "un", "W94": "un", "W91": "un", "W92": "un",
+        "W95": "un", "W96": "un", "W97": "un", "W98": "un", "W99": "un", "W100": "un",
+        "RU101": "un", "RU102": "un", "W101": "un", "W102": "un"
+    };
+
+    // Datos de partidos (FIFA 2026)
+    const matchesData = [
+        { id: 1, date: "2026-06-11T23:00:00Z", team1: "México", team2: "Sudáfrica", group: "A", location: "Ciudad de México", stage: "Fase de grupos" },
+        { id: 2, date: "2026-06-12T06:00:00Z", team1: "República de Corea", team2: "Play-off 1 (DEN/MKD/CZE/IRL)", group: "A", location: "Guadalajara", stage: "Fase de grupos" },
+        { id: 3, date: "2026-06-12T23:00:00Z", team1: "Canadá", team2: "Play-off 2 (ITA/NIR/WAL/BIH)", group: "B", location: "Toronto", stage: "Fase de grupos" },
+        { id: 4, date: "2026-06-13T05:00:00Z", team1: "EE. UU.", team2: "Paraguay", group: "D", location: "Los Ángeles", stage: "Fase de grupos" },
+        { id: 5, date: "2026-06-13T23:00:00Z", team1: "Catar", team2: "Suiza", group: "B", location: "Área de la Bahía de San Francisco", stage: "Fase de grupos" },
+        { id: 6, date: "2026-06-14T02:00:00Z", team1: "Brasil", team2: "Marruecos", group: "C", location: "Nueva York/Nueva Jersey", stage: "Fase de grupos" },
+        { id: 7, date: "2026-06-14T05:00:00Z", team1: "Haití", team2: "Escocia", group: "C", location: "Boston", stage: "Fase de grupos" },
+        { id: 8, date: "2026-06-14T08:00:00Z", team1: "Australia", team2: "Play-off 3 (TUR/ROU/SVK/KOS)", group: "D", location: "Vancouver", stage: "Fase de grupos" },
+        { id: 9, date: "2026-06-14T21:00:00Z", team1: "Alemania", team2: "Curazao", group: "E", location: "Houston", stage: "Fase de grupos" },
+        { id: 10, date: "2026-06-15T00:00:00Z", team1: "Países Bajos", team2: "Japón", group: "F", location: "Dallas", stage: "Fase de grupos" },
+        { id: 11, date: "2026-06-15T03:00:00Z", team1: "Costa de Marfil", team2: "Ecuador", group: "E", location: "Filadelfia", stage: "Fase de grupos" },
+        { id: 12, date: "2026-06-15T06:00:00Z", team1: "Play-off 4 (UKR/SWE/POL/ALB)", team2: "Túnez", group: "F", location: "Monterrey", stage: "Fase de grupos" },
+        { id: 13, date: "2026-06-15T20:00:00Z", team1: "España", team2: "Islas de Cabo Verde", group: "H", location: "Atlanta", stage: "Fase de grupos" },
+        { id: 14, date: "2026-06-15T23:00:00Z", team1: "Bélgica", team2: "Egipto", group: "G", location: "Seattle", stage: "Fase de grupos" },
+        { id: 15, date: "2026-06-16T02:00:00Z", team1: "Arabia Saudí", team2: "Uruguay", group: "H", location: "Miami", stage: "Fase de grupos" },
+        { id: 16, date: "2026-06-16T05:00:00Z", team1: "RI de Irán", team2: "Nueva Zelanda", group: "G", location: "Los Ángeles", stage: "Fase de grupos" },
+        { id: 17, date: "2026-06-16T23:00:00Z", team1: "Francia", team2: "Senegal", group: "I", location: "Nueva York/Nueva Jersey", stage: "Fase de grupos" },
+        { id: 18, date: "2026-06-17T02:00:00Z", team1: "Play-off 5 (BOL/SUR/IRQ)", team2: "Noruega", group: "I", location: "Boston", stage: "Fase de grupos" },
+        { id: 19, date: "2026-06-17T05:00:00Z", team1: "Argentina", team2: "Argelia", group: "J", location: "Kansas City", stage: "Fase de grupos" },
+        { id: 20, date: "2026-06-17T08:00:00Z", team1: "Austria", team2: "Jordania", group: "J", location: "Área de la Bahía de San Francisco", stage: "Fase de grupos" },
+        { id: 21, date: "2026-06-17T21:00:00Z", team1: "Portugal", team2: "Play-off 6 (NCL/JAM/COD)", group: "K", location: "Houston", stage: "Fase de grupos" },
+        { id: 22, date: "2026-06-18T00:00:00Z", team1: "Inglaterra", team2: "Croacia", group: "L", location: "Dallas", stage: "Fase de grupos" },
+        { id: 23, date: "2026-06-18T03:00:00Z", team1: "Ghana", team2: "Panamá", group: "L", location: "Toronto", stage: "Fase de grupos" },
+        { id: 24, date: "2026-06-18T06:00:00Z", team1: "Uzbekistán", team2: "Colombia", group: "K", location: "Ciudad de México", stage: "Fase de grupos" },
+        { id: 25, date: "2026-06-18T20:00:00Z", team1: "Play-off 1", team2: "Sudáfrica", group: "A", location: "Atlanta", stage: "Fase de grupos" },
+        { id: 26, date: "2026-06-18T23:00:00Z", team1: "Suiza", team2: "Play-off 2", group: "B", location: "Los Ángeles", stage: "Fase de grupos" },
+        { id: 27, date: "2026-06-19T02:00:00Z", team1: "Canadá", team2: "Catar", group: "B", location: "Vancouver", stage: "Fase de grupos" },
+        { id: 28, date: "2026-06-19T05:00:00Z", team1: "México", team2: "República de Corea", group: "A", location: "Guadalajara", stage: "Fase de grupos" },
+        { id: 29, date: "2026-06-19T23:00:00Z", team1: "EE. UU.", team2: "Australia", group: "D", location: "Seattle", stage: "Fase de grupos" },
+        { id: 30, date: "2026-06-20T02:00:00Z", team1: "Escocia", team2: "Marruecos", group: "C", location: "Boston", stage: "Fase de grupos" },
+        { id: 31, date: "2026-06-20T05:00:00Z", team1: "Brasil", team2: "Haití", group: "C", location: "Filadelfia", stage: "Fase de grupos" },
+        { id: 32, date: "2026-06-20T08:00:00Z", team1: "Play-off 3", team2: "Paraguay", group: "D", location: "Área de la Bahía de San Francisco", stage: "Fase de grupos" },
+        { id: 33, date: "2026-06-20T21:00:00Z", team1: "Países Bajos", team2: "Play-off 4", group: "F", location: "Houston", stage: "Fase de grupos" },
+        { id: 34, date: "2026-06-21T00:00:00Z", team1: "Alemania", team2: "Costa de Marfil", group: "E", location: "Toronto", stage: "Fase de grupos" },
+        { id: 35, date: "2026-06-21T04:00:00Z", team1: "Ecuador", team2: "Curazao", group: "E", location: "Kansas City", stage: "Fase de grupos" },
+        { id: 36, date: "2026-06-21T08:00:00Z", team1: "Túnez", team2: "Japón", group: "F", location: "Monterrey", stage: "Fase de grupos" },
+        { id: 37, date: "2026-06-21T20:00:00Z", team1: "España", team2: "Arabia Saudí", group: "H", location: "Atlanta", stage: "Fase de grupos" },
+        { id: 38, date: "2026-06-21T23:00:00Z", team1: "Bélgica", team2: "RI de Irán", group: "G", location: "Los Ángeles", stage: "Fase de grupos" },
+        { id: 39, date: "2026-06-22T02:00:00Z", team1: "Uruguay", team2: "Islas de Cabo Verde", group: "H", location: "Miami", stage: "Fase de grupos" },
+        { id: 40, date: "2026-06-22T05:00:00Z", team1: "Nueva Zelanda", team2: "Egipto", group: "G", location: "Vancouver", stage: "Fase de grupos" },
+        { id: 41, date: "2026-06-22T21:00:00Z", team1: "Argentina", team2: "Austria", group: "J", location: "Dallas", stage: "Fase de grupos" },
+        { id: 42, date: "2026-06-23T01:00:00Z", team1: "Francia", team2: "Play-off 5", group: "I", location: "Filadelfia", stage: "Fase de grupos" },
+        { id: 43, date: "2026-06-23T04:00:00Z", team1: "Noruega", team2: "Senegal", group: "I", location: "Nueva York/Nueva Jersey", stage: "Fase de grupos" },
+        { id: 44, date: "2026-06-23T07:00:00Z", team1: "Jordania", team2: "Argelia", group: "J", location: "Área de la Bahía de San Francisco", stage: "Fase de grupos" },
+        { id: 45, date: "2026-06-23T21:00:00Z", team1: "Portugal", team2: "Uzbekistán", group: "K", location: "Houston", stage: "Fase de grupos" },
+        { id: 46, date: "2026-06-24T00:00:00Z", team1: "Inglaterra", team2: "Ghana", group: "L", location: "Boston", stage: "Fase de grupos" },
+        { id: 47, date: "2026-06-24T03:00:00Z", team1: "Panamá", team2: "Croacia", group: "L", location: "Toronto", stage: "Fase de grupos" },
+        { id: 48, date: "2026-06-24T06:00:00Z", team1: "Colombia", team2: "Play-off 6", group: "K", location: "Guadalajara", stage: "Fase de grupos" },
+        { id: 49, date: "2026-06-24T23:00:00Z", team1: "Suiza", team2: "Canadá", group: "B", location: "Vancouver", stage: "Fase de grupos" },
+        { id: 50, date: "2026-06-24T23:00:00Z", team1: "Play-off 2", team2: "Catar", group: "B", location: "Seattle", stage: "Fase de grupos" },
+        { id: 51, date: "2026-06-25T02:00:00Z", team1: "Escocia", team2: "Brasil", group: "C", location: "Miami", stage: "Fase de grupos" },
+        { id: 52, date: "2026-06-25T02:00:00Z", team1: "Marruecos", team2: "Haití", group: "C", location: "Atlanta", stage: "Fase de grupos" },
+        { id: 53, date: "2026-06-25T05:00:00Z", team1: "Play-off 1", team2: "México", group: "A", location: "Ciudad de México", stage: "Fase de grupos" },
+        { id: 54, date: "2026-06-25T05:00:00Z", team1: "Sudáfrica", team2: "República de Corea", group: "A", location: "Monterrey", stage: "Fase de grupos" },
+        { id: 55, date: "2026-06-26T00:00:00Z", team1: "Curazao", team2: "Costa de Marfil", group: "E", location: "Filadelfia", stage: "Fase de grupos" },
+        { id: 56, date: "2026-06-26T00:00:00Z", team1: "Ecuador", team2: "Alemania", group: "E", location: "Nueva York/Nueva Jersey", stage: "Fase de grupos" },
+        { id: 57, date: "2026-06-26T03:00:00Z", team1: "Japón", team2: "Play-off 4", group: "F", location: "Dallas", stage: "Fase de grupos" },
+        { id: 58, date: "2026-06-26T03:00:00Z", team1: "Túnez", team2: "Países Bajos", group: "F", location: "Kansas City", stage: "Fase de grupos" },
+        { id: 59, date: "2026-06-26T06:00:00Z", team1: "Play-off 3", team2: "EE. UU.", group: "D", location: "Los Ángeles", stage: "Fase de grupos" },
+        { id: 60, date: "2026-06-26T06:00:00Z", team1: "Paraguay", team2: "Australia", group: "D", location: "Área de la Bahía de San Francisco", stage: "Fase de grupos" },
+        { id: 61, date: "2026-06-26T23:00:00Z", team1: "Noruega", team2: "Francia", group: "I", location: "Boston", stage: "Fase de grupos" },
+        { id: 62, date: "2026-06-26T23:00:00Z", team1: "Senegal", team2: "Play-off 5", group: "I", location: "Toronto", stage: "Fase de grupos" },
+        { id: 63, date: "2026-06-27T04:00:00Z", team1: "Islas de Cabo Verde", team2: "Arabia Saudí", group: "H", location: "Houston", stage: "Fase de grupos" },
+        { id: 64, date: "2026-06-27T04:00:00Z", team1: "Uruguay", team2: "España", group: "H", location: "Guadalajara", stage: "Fase de grupos" },
+        { id: 65, date: "2026-06-27T07:00:00Z", team1: "Egipto", team2: "RI de Irán", group: "G", location: "Seattle", stage: "Fase de grupos" },
+        { id: 66, date: "2026-06-27T07:00:00Z", team1: "Nueva Zelanda", team2: "Bélgica", group: "G", location: "Vancouver", stage: "Fase de grupos" },
+        { id: 67, date: "2026-06-28T01:00:00Z", team1: "Panamá", team2: "Inglaterra", group: "L", location: "Nueva York/Nueva Jersey", stage: "Fase de grupos" },
+        { id: 68, date: "2026-06-28T01:00:00Z", team1: "Croacia", team2: "Ghana", group: "L", location: "Filadelfia", stage: "Fase de grupos" },
+        { id: 69, date: "2026-06-28T03:30:00Z", team1: "Colombia", team2: "Portugal", group: "K", location: "Miami", stage: "Fase de grupos" },
+        { id: 70, date: "2026-06-28T03:30:00Z", team1: "Play-off 6", team2: "Uzbekistán", group: "K", location: "Atlanta", stage: "Fase de grupos" },
+        { id: 71, date: "2026-06-28T06:00:00Z", team1: "Argelia", team2: "Austria", group: "J", location: "Kansas City", stage: "Fase de grupos" },
+        { id: 72, date: "2026-06-28T06:00:00Z", team1: "Jordania", team2: "Argentina", group: "J", location: "Dallas", stage: "Fase de grupos" },
+        { id: 73, date: "2026-06-28T23:00:00Z", team1: "2A", team2: "2B", group: "R16", location: "Los Ángeles", stage: "Dieciseavos" },
+        { id: 74, date: "2026-06-29T21:00:00Z", team1: "1C", team2: "2F", group: "R16", location: "Houston", stage: "Dieciseavos" },
+        { id: 75, date: "2026-06-30T00:30:00Z", team1: "1E", team2: "3ABCDF", group: "R16", location: "Boston", stage: "Dieciseavos" },
+        { id: 76, date: "2026-06-30T05:00:00Z", team1: "1F", team2: "2C", group: "R16", location: "Monterrey", stage: "Dieciseavos" },
+        { id: 77, date: "2026-06-30T21:00:00Z", team1: "2E", team2: "2I", group: "R16", location: "Dallas", stage: "Dieciseavos" },
+        { id: 78, date: "2026-07-01T01:00:00Z", team1: "1I", team2: "3CDFGH", group: "R16", location: "Nueva York/Nueva Jersey", stage: "Dieciseavos" },
+        { id: 79, date: "2026-07-01T05:00:00Z", team1: "1A", team2: "3CEFHI", group: "R16", location: "Ciudad de México", stage: "Dieciseavos" },
+        { id: 80, date: "2026-07-01T20:00:00Z", team1: "1L", team2: "3EHIJK", group: "R16", location: "Atlanta", stage: "Dieciseavos" },
+        { id: 81, date: "2026-07-02T00:00:00Z", team1: "1G", team2: "3AEHIJ", group: "R16", location: "Seattle", stage: "Dieciseavos" },
+        { id: 82, date: "2026-07-02T04:00:00Z", team1: "1D", team2: "3BEFIJ", group: "R16", location: "Área de la Bahía de San Francisco", stage: "Dieciseavos" },
+        { id: 83, date: "2026-07-02T23:00:00Z", team1: "1H", team2: "2J", group: "R16", location: "Los Ángeles", stage: "Dieciseavos" },
+        { id: 84, date: "2026-07-03T03:00:00Z", team1: "2K", team2: "2L", group: "R16", location: "Toronto", stage: "Dieciseavos" },
+        { id: 85, date: "2026-07-03T07:00:00Z", team1: "1B", team2: "3EFGIJ", group: "R16", location: "Vancouver", stage: "Dieciseavos" },
+        { id: 86, date: "2026-07-03T22:00:00Z", team1: "2D", team2: "2G", group: "R16", location: "Dallas", stage: "Dieciseavos" },
+        { id: 87, date: "2026-07-04T02:00:00Z", team1: "1J", team2: "2H", group: "R16", location: "Miami", stage: "Dieciseavos" },
+        { id: 88, date: "2026-07-04T05:30:00Z", team1: "1K", team2: "3DEIJL", group: "R16", location: "Kansas City", stage: "Dieciseavos" },
+        { id: 89, date: "2026-07-04T21:00:00Z", team1: "W73", team2: "W75", group: "R16", location: "Houston", stage: "Octavos" },
+        { id: 90, date: "2026-07-05T01:00:00Z", team1: "W74", team2: "W77", group: "R16", location: "Filadelfia", stage: "Octavos" },
+        { id: 91, date: "2026-07-06T00:00:00Z", team1: "W76", team2: "W78", group: "R16", location: "Nueva York/Nueva Jersey", stage: "Octavos" },
+        { id: 92, date: "2026-07-06T04:00:00Z", team1: "W79", team2: "W80", group: "R16", location: "Ciudad de México", stage: "Octavos" },
+        { id: 93, date: "2026-07-06T23:00:00Z", team1: "W83", team2: "W84", group: "R16", location: "Dallas", stage: "Octavos" },
+        { id: 94, date: "2026-07-07T04:00:00Z", team1: "W81", team2: "W82", group: "R16", location: "Seattle", stage: "Octavos" },
+        { id: 95, date: "2026-07-07T20:00:00Z", team1: "W86", team2: "W88", group: "R16", location: "Atlanta", stage: "Octavos" },
+        { id: 96, date: "2026-07-08T00:00:00Z", team1: "W85", team2: "W87", group: "R16", location: "Vancouver", stage: "Octavos" },
+        { id: 97, date: "2026-07-10T00:00:00Z", team1: "W89", team2: "W90", group: "QF", location: "Boston", stage: "Cuartos" },
+        { id: 98, date: "2026-07-10T23:00:00Z", team1: "W93", team2: "W94", group: "QF", location: "Los Ángeles", stage: "Cuartos" },
+        { id: 99, date: "2026-07-12T01:00:00Z", team1: "W91", team2: "W92", group: "QF", location: "Miami", stage: "Cuartos" },
+        { id: 100, date: "2026-07-12T05:00:00Z", team1: "W95", team2: "W96", group: "QF", location: "Kansas City", stage: "Cuartos" },
+        { id: 101, date: "2026-07-14T23:00:00Z", team1: "W97", team2: "W98", group: "SF", location: "Dallas", stage: "Semifinal" },
+        { id: 102, date: "2026-07-15T23:00:00Z", team1: "W99", team2: "W100", group: "SF", location: "Atlanta", stage: "Semifinal" },
+        { id: 103, date: "2026-07-19T01:00:00Z", team1: "RU101", team2: "RU102", group: "3rd", location: "Miami", stage: "Tercer puesto" },
+        { id: 104, date: "2026-07-19T23:00:00Z", team1: "W101", team2: "W102", group: "F", location: "Nueva York/Nueva Jersey", stage: "Final" }
+    ];
+
+    const groupsData = [
+        { name: "Grupo A", teams: ["México", "Sudáfrica", "República de Corea", "Play-off 1"] },
+        { name: "Grupo B", teams: ["Canadá", "Play-off 2", "Suiza", "Catar"] },
+        { name: "Grupo C", teams: ["Brasil", "Marruecos", "Haití", "Escocia"] },
+        { name: "Grupo D", teams: ["EE. UU.", "Paraguay", "Australia", "Play-off 3"] },
+        { name: "Grupo E", teams: ["Alemania", "Curazao", "Costa de Marfil", "Ecuador"] },
+        { name: "Grupo F", teams: ["Países Bajos", "Japón", "Play-off 4", "Túnez"] },
+        { name: "Grupo G", teams: ["Bélgica", "Egipto", "RI de Irán", "Nueva Zelanda"] },
+        { name: "Grupo H", teams: ["España", "Islas de Cabo Verde", "Arabia Saudí", "Uruguay"] },
+        { name: "Grupo I", teams: ["Francia", "Senegal", "Play-off 5", "Noruega"] },
+        { name: "Grupo J", teams: ["Argentina", "Argelia", "Austria", "Jordania"] },
+        { name: "Grupo K", teams: ["Portugal", "Play-off 6", "Uzbekistán", "Colombia"] },
+        { name: "Grupo L", teams: ["Inglaterra", "Croacia", "Ghana", "Panamá"] }
+    ];
+
+    let currentGroup = "all";
+    let searchTerm = "";
+    let currentTab = "matches";
+
+    function getFlagUrl(teamName) {
+        let code = countryCodes[teamName];
+        if (!code) code = "un";
+        if (code === 'gb-sct' || code === 'gb-eng') code = 'gb';
+        if (code === 'un') return "https://upload.wikimedia.org/wikipedia/commons/9/9a/Flag_of_the_United_Nations.svg";
+        return `https://flagcdn.com/w40/${code}.png`;
+    }
+    function getGenericFlagUrl() {
+        return "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='30' viewBox='0 0 40 30'%3E%3Crect width='40' height='30' fill='%23cccccc'/%3E%3Cpath d='M0 0h40v10H0z' fill='%23999'/%3E%3Cpath d='M0 20h40v10H0z' fill='%23999'/%3E%3C/svg%3E";
+    }
+
+    function initGroupFilters() {
+        const groups = [...new Set(matchesData.filter(m => m.group && m.group.length === 1).map(m => m.group))].sort();
+        const container = document.getElementById('group-filters-container');
+        container.innerHTML = `<button data-group="all" class="group-filter flex-shrink-0 px-4 py-2 rounded-full text-sm font-semibold bg-blue-600 text-white">Todos</button>`;
+        groups.forEach(g => {
+            const btn = document.createElement('button');
+            btn.dataset.group = g;
+            btn.className = 'group-filter flex-shrink-0 px-4 py-2 rounded-full text-sm font-semibold bg-gray-200 text-gray-700';
+            btn.textContent = `Grupo ${g}`;
+            container.appendChild(btn);
+        });
+        document.querySelectorAll('.group-filter').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('.group-filter').forEach(b => {
+                    b.classList.remove('bg-blue-600', 'text-white');
+                    b.classList.add('bg-gray-200', 'text-gray-700');
+                });
+                this.classList.remove('bg-gray-200', 'text-gray-700');
+                this.classList.add('bg-blue-600', 'text-white');
+                currentGroup = this.dataset.group;
+                renderFilteredMatches();
+            });
+        });
+    }
+
+    document.getElementById('search-input').addEventListener('input', (e) => {
+        searchTerm = e.target.value.toLowerCase();
+        renderFilteredMatches();
+    });
+
+    document.getElementById('tab-matches').addEventListener('click', () => {
+        currentTab = 'matches';
+        document.getElementById('tab-matches').classList.add('tab-active');
+        document.getElementById('tab-groups').classList.remove('tab-active');
+        document.getElementById('matches-view').classList.remove('hidden');
+        document.getElementById('groups-view').classList.add('hidden');
+        renderFilteredMatches();
+    });
+    document.getElementById('tab-groups').addEventListener('click', () => {
+        currentTab = 'groups';
+        document.getElementById('tab-groups').classList.add('tab-active');
+        document.getElementById('tab-matches').classList.remove('tab-active');
+        document.getElementById('matches-view').classList.add('hidden');
+        document.getElementById('groups-view').classList.remove('hidden');
+        renderGroups();
+    });
+
+    function filterMatches() {
+        return matchesData.filter(m => {
+            const groupMatch = currentGroup === 'all' || m.group === currentGroup;
+            const searchMatch = m.team1.toLowerCase().includes(searchTerm) || m.team2.toLowerCase().includes(searchTerm);
+            return groupMatch && searchMatch;
+        });
+    }
+
+    function renderFilteredMatches() {
+        const filtered = filterMatches();
+        const container = document.getElementById('matches-list');
+        const noMatches = document.getElementById('no-matches');
+        if (filtered.length === 0) {
+            noMatches.classList.remove('hidden');
+            container.innerHTML = '';
+            return;
+        }
+        noMatches.classList.add('hidden');
+        container.innerHTML = filtered.map(m => {
+            const dateObj = new Date(m.date);
+            const formattedDate = dateObj.toLocaleDateString('es-ES', { weekday: 'short', day: '2-digit', month: 'short' });
+            const formattedTime = dateObj.toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit' });
+            return `
+                <div class="bg-white rounded-xl p-4 shadow-sm border border-gray-100">
+                    <div class="flex justify-between items-center text-xs text-gray-500 mb-2">
+                        <span class="bg-blue-100 text-blue-800 px-2 py-1 rounded-full">${m.group ? `Grupo ${m.group}` : m.stage}</span>
+                        <span>${m.stage}</span>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <div class="flex-1 text-right font-semibold flex items-center justify-end gap-2">
+                            <span>${m.team1}</span>
+                            <img src="${getFlagUrl(m.team1)}" class="flag-icon" alt="${m.team1}" onerror="this.src='${getGenericFlagUrl()}'">
+                        </div>
+                        <div class="mx-3 text-sm bg-gray-100 px-2 py-1 rounded-full">vs</div>
+                        <div class="flex-1 font-semibold flex items-center gap-2">
+                            <img src="${getFlagUrl(m.team2)}" class="flag-icon" alt="${m.team2}" onerror="this.src='${getGenericFlagUrl()}'">
+                            <span>${m.team2}</span>
+                        </div>
+                    </div>
+                    <div class="mt-3 text-xs text-gray-600 flex items-center gap-2">
+                        <i class="fas fa-calendar-alt"></i> ${formattedDate} · ${formattedTime}
+                        <i class="fas fa-map-marker-alt ml-2"></i> ${m.location}
+                    </div>
+                </div>
+            `;
+        }).join('');
+    }
+
+    function renderGroups() {
+        const container = document.getElementById('groups-view');
+        container.innerHTML = groupsData.map(g => `
+            <div class="bg-white rounded-xl p-4 shadow-sm border border-gray-100">
+                <h3 class="font-bold text-blue-700 mb-2">${g.name}</h3>
+                <table class="w-full text-sm">
+                    <thead class="text-xs text-gray-500 border-b">
+                        <tr><th class="text-left py-1">Equipo</th><th class="text-center">PJ</th><th class="text-center">G</th><th class="text-center">Pts</th></tr>
+                    </thead>
+                    <tbody>
+                        ${g.teams.map(team => `
+                            <tr class="border-b last:border-0">
+                                <td class="py-2 font-medium flex items-center gap-2">
+                                    <img src="${getFlagUrl(team)}" class="flag-icon" alt="${team}" onerror="this.src='${getGenericFlagUrl()}'">
+                                    ${team}
+                                </td>
+                                <td class="text-center">0</td>
+                                <td class="text-center">0</td>
+                                <td class="text-center font-bold">0</td>
+                            </tr>
+                        `).join('')}
+                    </tbody>
+                </table>
+            </div>
+        `).join('');
+    }
+
+    function getNextMatch() {
+        const now = new Date();
+        return matchesData.filter(m => new Date(m.date) > now).sort((a, b) => new Date(a.date) - new Date(b.date))[0];
+    }
+
+    function updateCountdown() {
+        const next = getNextMatch();
+        const display = document.getElementById('countdown-display');
+        const teamsSpan = document.getElementById('next-teams');
+        const stageSpan = document.getElementById('next-stage');
+
+        if (!next) {
+            display.textContent = 'TORNEO FINALIZADO';
+            teamsSpan.innerHTML = '';
+            stageSpan.textContent = '';
+            return;
+        }
+
+        const matchDate = new Date(next.date);
+        const now = new Date();
+        const diff = matchDate - now;
+
+        if (diff <= 0) {
+            setTimeout(updateCountdown, 1000);
+            return;
+        }
+
+        const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+        display.textContent = `${days}d ${hours}h ${minutes}m ${seconds}s`;
+        // Insertamos los equipos con su VS, sin duplicar
+        teamsSpan.innerHTML = `
+            <img src="${getFlagUrl(next.team1)}" class="flag-icon" alt="${next.team1}" onerror="this.src='${getGenericFlagUrl()}'">
+            <span>${next.team1}</span>
+            <span class="text-yellow-500 font-black mx-0.5">VS</span>
+            <span>${next.team2}</span>
+            <img src="${getFlagUrl(next.team2)}" class="flag-icon" alt="${next.team2}" onerror="this.src='${getGenericFlagUrl()}'">
+        `;
+        stageSpan.textContent = next.group ? `Grupo ${next.group}` : next.stage;
+    }
+
+    initGroupFilters();
+    renderFilteredMatches();
+    renderGroups();
+    updateCountdown();
+    setInterval(updateCountdown, 1000);
+})();
+</script>
+</body>
+</html>

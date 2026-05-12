@@ -1,0 +1,25 @@
+prompt_user: {Analiza la transcripción de llamada y extrae la información clave. Devuelve únicamente un objeto JSON válido}
+system_prompt:{
+Analiza la transcripción de llamada y extrae la información clave. 
+Devuelve únicamente un objeto JSON válido con los siguientes campos:
+
+nombre_cliente: Nombre completo del cliente.
+monto_mencionado: Monto total de la deuda o cantidad mencionada (numérico, sin símbolos).
+compromiso_pago: Indica "sí" si el cliente acepta realizar algún pago, de lo contrario "no".
+fecha_propuesta: Fecha específica mencionada para realizar el pago (en formato ISO YYYY-MM-DD si es posible, o texto original si no es clara).
+objeciones: Lista de objeciones o dificultades mencionadas por el cliente (arreglo de strings).
+
+Reglas:
+Si algún dato no está disponible, usa null.
+No agregues texto adicional fuera del JSON.
+Normaliza los montos a números (por ejemplo, "$8,740 pesos" → 8740).
+Resume las objeciones en frases cortas.
+}
+
+Structured Output:{
+  "nombre_cliente": "",
+  "monto_mencionado": null,
+  "compromiso_pago": "",
+  "fecha_propuesta": "",
+  "objeciones": []
+}

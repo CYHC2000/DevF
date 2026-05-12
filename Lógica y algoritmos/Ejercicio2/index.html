@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="../Ejercicio2/img/compras.png" type="image/png">
+    <title>Tu lista de compras</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Lista de compras de adulto independiente</h1>
+            <p>¡Que no se te olvide nada!</p>
+        </header>
+
+        <main>
+            <!-- Add Section -->
+            <section class="add-section">
+                <h2>Agrega productos a tu lista de compras</h2>
+                <div class="input-group">
+                    <input type="text" id="productInput" placeholder="Ingresa el nombre..." maxlength="50">
+                    <button id="addBtn" class="btn btn-primary">Agregar</button>
+                </div>
+                <p id="errorMessage" class="error-message"></p>
+            </section>
+
+            <!-- List Section -->
+            <section class="list-section">
+                <h2>Esto es lo que llevas agregado:</h2>
+                <div class="list-stats">
+                    <span id="itemCount">Productos:</span>
+                    <button id="clearAllBtn" class="btn btn-danger">Limpiar</button>
+                </div>
+                <div id="shoppingList" class="shopping-list">
+                    <p class="empty-message">Tu lista está vacía. Agrega los productos necesarios  para un adulto independiente...</p>
+                </div>
+            </section>
+        </main>
+
+        <footer>
+            <p>Primero esta en la lista y luego existe...</p>
+        </footer>
+    </div>
+
+    <script type="module" src="js/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,12 @@
+[
+  {
+    "nombre": "Marte",
+    "tipo": "Rocoso",
+    "distancia": "225 millones km"
+  },
+  {
+    "nombre": "Júpiter",
+    "tipo": "Gaseoso",
+    "distancia": "778 millones km"
+  }
+]

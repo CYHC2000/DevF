@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Registro de Eventos</title>
+
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+  <div class="container">
+
+    <h1>Registro de Evento</h1>
+
+    <form id="eventForm">
+
+      <!-- Nombre -->
+      <div class="form-group">
+        <label for="name">Nombre completo</label>
+
+        <input
+          type="text"
+          id="name"
+          placeholder="Ingresa tu nombre"
+        >
+
+        <small class="error" id="nameError"></small>
+      </div>
+
+      <!-- Email -->
+      <div class="form-group">
+        <label for="email">Correo electrónico</label>
+
+        <input
+          type="email"
+          id="email"
+          placeholder="correo@ejemplo.com"
+        >
+
+        <small class="error" id="emailError"></small>
+      </div>
+
+      <!-- Edad -->
+      <div class="form-group">
+        <label for="age">Edad</label>
+
+        <input
+          type="number"
+          id="age"
+          placeholder="Edad"
+        >
+
+        <small class="error" id="ageError"></small>
+      </div>
+
+      <!-- Intereses -->
+      <div class="form-group">
+        <label>Intereses</label>
+
+        <div class="checkbox-group">
+          <label>
+            <input type="checkbox" name="interest" value="Tecnología">
+            Tecnología
+          </label>
+
+          <label>
+            <input type="checkbox" name="interest" value="Marketing">
+            Marketing
+          </label>
+
+          <label>
+            <input type="checkbox" name="interest" value="Diseño">
+            Diseño
+          </label>
+        </div>
+
+        <small class="error" id="interestError"></small>
+      </div>
+
+      <!-- Horario -->
+      <div class="form-group">
+        <label for="schedule">Horario</label>
+
+        <select id="schedule">
+          <option value="">Selecciona</option>
+          <option value="mañana">Mañana</option>
+          <option value="tarde">Tarde</option>
+          <option value="noche">Noche</option>
+        </select>
+
+        <small class="error" id="scheduleError"></small>
+      </div>
+
+      <!-- Documento -->
+      <div class="form-group">
+        <label for="document">
+          Documento de identificación
+        </label>
+
+        <input
+          type="file"
+          id="document"
+        >
+
+        <small class="error" id="documentError"></small>
+      </div>
+
+      <button type="submit">
+        Registrarse
+      </button>
+
+    </form>
+
+  </div>
+
+  <script src="app.js"></script>
+
+</body>
+</html>

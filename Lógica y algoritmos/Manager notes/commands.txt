@@ -1,0 +1,8 @@
+# Crear una nota
+node gestorNotas.js create "Compras" "Leche, pan, huevos"
+
+# Listar todas las notas
+node gestorNotas.js list
+
+# Eliminar una nota
+node gestorNotas.js delete "Compras"

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Buscando palabras</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Palabras extensas</h1>
+        <p class="description">
+            Encuentra la palabra más extensa dentro de un texto
+        </p>
+
+        <div class="input-section">
+            <label for="textInput">Ingresa tu texto</label>
+            <textarea 
+                id="textInput" 
+                rows="5" 
+                placeholder="Pega o escribe el texto que quieras buscar."
+            ></textarea>
+            <button id="findBtn" class="btn">Buscar</button>
+        </div>
+
+        <div class="result-section" style="display: none;">
+            <h2>Result:</h2>
+            <div id="result" class="result-box">
+                <span class="placeholder"></span>
+            </div>
+        </div>
+
+    </div>
+
+    <script src="js/script.js"></script>
+</body>
+</html>

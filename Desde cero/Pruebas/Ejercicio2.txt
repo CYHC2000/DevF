@@ -1,0 +1,36 @@
+PATRONES:
+
+Correlación entre días de atraso y resultado:
+- ≤40 días: predominan compromisos de pago con alta tasa de cumplimiento.
+- ≥80 días: predominan rechazos o solicitud de humano.
+
+El bot funciona mejor en cobranza temprana; pierde efectividad en mora avanzada.
+
+- WhatsApp: mayor proporción de compromisos cumplidos.
+- Llamada: genera compromisos, pero con mayor tasa de incumplimiento.
+WhatsApp permite acuerdos más realistas o menos presión.
+
+
+Falta estrategia diferenciada por ticket.
+El bot no converge bien en casos complejos.
+
+
+Cambios al bot
+
+Segmentación y ruteo inteligente (reglas estrictas)
+
+- Si atraso > 80 días o monto > $10,000 -> escalar a humano temprano (≤3 turnos).
+- Si objeción = disputa / “ya pagó” -> flujo especializado o humano inmediato.
+
+Esto reduce fricción y mejora tasa de cierre en casos complejos.
+
+Optimización de ofertas según perfil:
+
+- En WhatsApp: mantener esquema actual.
+- En llamadas: reducir monto inicial y ofrecer planes más flexibles
+
+Ajustar oferta según motivo:
+
+- “Olvido” → pago completo inmediato.
+- “Liquidez” → parcial + plan corto.
+- “Sin empleo” → pausa o plan extendido.

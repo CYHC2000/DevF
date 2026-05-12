@@ -1,0 +1,11 @@
+{
+  "name": "planetas-app",
+  "version": "1.0.0",
+  "description": "Registro de planetas favoritos",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js"
+  },
+  "author": "DevF",
+  "license": "MIT"
+}

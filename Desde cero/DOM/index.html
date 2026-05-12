@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi CV</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<main class="layout">
+
+    <!-- FORMULARIO -->
+    <form class="card" validate>
+
+        <header class="card__header">
+            <h1>Te escuchamos</h1>
+            <p>Completa la información y atenderemos tus comentarios.</p>
+        </header>
+
+        <div class="field">
+            <label for="nombre">Nombre completo</label>
+            <input 
+                type="text"
+                id="nombre"
+                name="nombre"
+                placeholder="Ej. Carlos Pérez"
+                autocomplete="name"
+                required
+            >
+            <small class="hint">Utiliza tu nombre real.</small>
+        </div>
+
+        <div class="field">
+            <label for="email">Correo electrónico</label>
+            <input 
+                type="email"
+                id="email"
+                name="email"
+                placeholder="ejemplo@correo.com"
+                autocomplete="email"
+                required
+            >
+            <small class="hint">Tu información es confidencial.</small>
+        </div>
+
+        <div class="field">
+            <label for="empresa">Empresa (opcional)</label>
+            <input 
+                type="text"
+                id="empresa"
+                name="empresa"
+                placeholder="Nombre de tu empresa"
+            >
+        </div>
+
+        <div class="field">
+            <label for="mensaje">Comentarios</label>
+            <textarea 
+                id="mensaje"
+                name="mensaje"
+                rows="4"
+                placeholder="Escribe tus comentarios aquí..."
+                required
+            ></textarea>
+        </div>
+
+        <div class="actions">
+            <button type="submit" class="btn-primary">
+                Enviar mensaje
+            </button>
+        </div>
+
+    </form>
+
+    <!-- SECCIÓN COMENTARIOS -->
+    <section class="card comments">
+
+        <header class="card__header">
+            <h1>Comentarios recibidos</h1>
+            <p>Opiniones recientes de nuestros usuarios.</p>
+        </header>
+
+        <div class="comments__list">
+
+        </div>
+
+    </section>
+
+</main>
+
+<script src="comentarios.js"></script>
+</body>
+</html>
