@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <title>Biblioteca Virtual</title>
+
+        <link rel="stylesheet" href="styles.css">
+
+        <script defer src="app.js"></script>
+    </head>
+
+    <body>
+
+        <div class="container">
+
+            <div class="acciones">
+                <h1>Biblioteca Virtual</h1>
+                <button id="mostrarBtn" class="load_books">Cargar libros</button>
+                <button id="mostrarAgregar">Agregar libro</button>
+                <button id="mostrarActualizar">Actualizar disponibilidad</button>
+            </div>
+            <hr>
+            <div class="formulario oculto" id="formAgregar">
+                <h2>Agregar Libro</h2>
+                <input
+                    type="text"
+                    id="titulo"
+                    placeholder="Título"
+                >
+                <input
+                    type="text"
+                    id="autor"
+                    placeholder="Autor"
+                >
+                <input
+                    type="text"
+                    id="genero"
+                    placeholder="Género"
+                >
+                <select id="disponible">
+                    <option value="true"> Disponible </option>
+                    <option value="false"> Prestado </option>
+                </select>
+                <button id="agregarBtn">Agregar</button>
+            </div>
+
+            <div class="formulario oculto" id="formActualizar">
+                <h2>Actualizar</h2>
+                <input
+                    type="text"
+                    id="tituloActualizar"
+                    placeholder="Título del libro"
+                >
+                <select id="nuevoEstado">
+                    <option value="true"> Disponible </option>
+                    <option value="false"> Prestado </option>
+                </select>
+                <button id="actualizarBtn"> Actualizar </button>
+            </div>
+            <div id="librosContainer" class="libros"></div>
+        </div>
+    </body>
+</html>

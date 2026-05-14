@@ -10,10 +10,6 @@ const axiosBtn =
   document.getElementById("axios-btn");
 
 
-// ===============================
-// Mostrar personajes
-// ===============================
-
 function displayCharacters(characters) {
 
   dataContainer.innerHTML = "";
@@ -37,10 +33,6 @@ function displayCharacters(characters) {
 
 }
 
-
-// ===============================
-// Obtener datos con Fetch
-// ===============================
 
 async function getCharactersFetch() {
 
@@ -71,10 +63,6 @@ async function getCharactersFetch() {
 }
 
 
-// ===============================
-// Obtener datos con Axios
-// ===============================
-
 async function getCharactersAxios() {
 
   try {
@@ -96,11 +84,6 @@ async function getCharactersAxios() {
   }
 
 }
-
-
-// ===============================
-// Eventos de botones
-// ===============================
 
 fetchBtn.addEventListener(
   "click",

@@ -1,7 +1,3 @@
-// ===============================
-// Base de datos JSON de libros
-// ===============================
-
 const biblioteca = {
   libros: [
     {
@@ -25,76 +21,115 @@ const biblioteca = {
   ]
 };
 
+const formAgregar = document.getElementById("formAgregar");
 
-// ===============================
-// Simular lectura asincrónica
-// ===============================
+const formActualizar = document.getElementById("formActualizar");
 
-function leerDatos(callback) {
+document
+  .getElementById("mostrarAgregar")
+  .addEventListener("click", () => {
+    formAgregar.classList.toggle(
+      "oculto"
+    );
 
-  console.log("Leyendo datos de la biblioteca...");
+  });
+
+document
+  .getElementById("mostrarActualizar")
+  .addEventListener("click", () => {
+    formActualizar.classList.toggle(
+      "oculto"
+    );
+  });
+
+const librosContainer =
+  document.getElementById("librosContainer");
+
+function leerDatos(callback){
 
   setTimeout(() => {
 
     callback(biblioteca);
 
-  }, 2000);
+  }, 500);
+
 }
 
-
-// ===============================
-// Simular escritura asincrónica
-// ===============================
-
-function escribirDatos(datos, callback) {
-
-  console.log("Guardando cambios...");
+function escribirDatos(datos, callback){
 
   setTimeout(() => {
 
-    callback("Datos guardados correctamente");
+    callback("Datos guardados");
 
-  }, 1500);
+  }, 500);
+
 }
 
+function renderizarLibros(datos){
 
-// ===============================
-// Consultar inventario
-// ===============================
+  librosContainer.innerHTML = "";
 
-function mostrarLibros() {
+  datos.libros.forEach((libro) => {
 
-  leerDatos((datos) => {
+    const card =
+      document.createElement("div");
 
-    console.log("\n===== INVENTARIO =====");
+    card.classList.add("card");
 
-    datos.libros.forEach((libro, index) => {
+    card.innerHTML = `
+      <h3>${libro.titulo}</h3>
 
-      console.log(`
-Libro #${index + 1}
-Título: ${libro.titulo}
-Autor: ${libro.autor}
-Género: ${libro.genero}
-Disponible: ${libro.disponible ? "Sí" : "No"}
-      `);
+      <p>
+        <strong>Autor:</strong>
+        ${libro.autor}
+      </p>
 
-    });
+      <p>
+        <strong>Género:</strong>
+        ${libro.genero}
+      </p>
+
+      <p>
+        <strong>Disponible:</strong>
+
+        <span class="${
+          libro.disponible
+            ? "disponible"
+            : "no-disponible"
+        }">
+
+          ${
+            libro.disponible
+              ? "Sí"
+              : "No"
+          }
+
+        </span>
+      </p>
+    `;
+
+    librosContainer.appendChild(card);
 
   });
 
 }
 
+function mostrarLibros(){
 
-// ===============================
-// Agregar nuevo libro
-// ===============================
+  leerDatos((datos) => {
+
+    renderizarLibros(datos);
+
+  });
+
+}
 
 function agregarLibro(
   titulo,
   autor,
   genero,
   disponible
-) {
+){
 
   const nuevoLibro = {
     titulo,
@@ -107,10 +142,9 @@ function agregarLibro(
 
     datos.libros.push(nuevoLibro);
 
-    escribirDatos(datos, (mensaje) => {
+    escribirDatos(datos, () => {
 
-      console.log("\n" + mensaje);
-      console.log(`Libro "${titulo}" agregado`);
+      mostrarLibros();
 
     });
 
@@ -118,43 +152,30 @@ function agregarLibro(
 
 }
 
-
-// ===============================
-// Actualizar disponibilidad
-// ===============================
-
 function actualizarDisponibilidad(
   titulo,
   estado
-) {
+){
 
   leerDatos((datos) => {
 
-    const libro = datos.libros.find(
-      libro => libro.titulo === titulo
-    );
-
-    if (!libro) {
-
-      console.log(
-        `No se encontró el libro: ${titulo}`
+    const libro =
+      datos.libros.find(
+        libro => libro.titulo === titulo
       );
+
+    if(!libro){
+
+      alert("Libro no encontrado");
 
       return;
     }
 
     libro.disponible = estado;
 
-    escribirDatos(datos, (mensaje) => {
+    escribirDatos(datos, () => {
 
-      console.log("\n" + mensaje);
-
-      console.log(
-        `Disponibilidad actualizada:
-${titulo} -> ${
-          estado ? "Disponible" : "Prestado"
-        }`
-      );
+      mostrarLibros();
 
     });
 
@@ -162,26 +183,56 @@ ${titulo} -> ${
 
 }
 
+document
+  .getElementById("mostrarBtn")
+  .addEventListener(
+    "click",
+    mostrarLibros
+  );
 
-// ===============================
-// Pruebas del sistema
-// ===============================
+document
+  .getElementById("agregarBtn")
+  .addEventListener("click", () => {
 
-// Mostrar inventario inicial
-mostrarLibros();
+    const titulo =
+      document.getElementById("titulo").value;
 
+    const autor =
+      document.getElementById("autor").value;
 
-// Agregar un nuevo libro
-agregarLibro(
-  "Harry Potter",
-  "J.K. Rowling",
-  "Fantasía",
-  true
-);
+    const genero =
+      document.getElementById("genero").value;
 
+    const disponible =
+      document.getElementById("disponible").value
+      === "true";
 
-// Cambiar disponibilidad
-actualizarDisponibilidad(
-  "1984",
-  true
-);
+    agregarLibro(
+      titulo,
+      autor,
+      genero,
+      disponible
+    );
+
+  });
+
+document
+  .getElementById("actualizarBtn")
+  .addEventListener("click", () => {
+
+    const titulo =
+      document.getElementById(
+        "tituloActualizar"
+      ).value;
+
+    const estado =
+      document.getElementById(
+        "nuevoEstado"
+      ).value === "true";
+
+    actualizarDisponibilidad(
+      titulo,
+      estado
+    );
+
+  });
