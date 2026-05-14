@@ -6,16 +6,9 @@ form.addEventListener(
   function(event) {
 
     event.preventDefault();
-
-    // Limpiar errores
     clearErrors();
 
     let isValid = true;
-
-    // =========================
-    // Obtener valores
-    // =========================
-
     const name =
       document.getElementById("name").value.trim();
 
@@ -36,11 +29,6 @@ form.addEventListener(
         'input[name="interest"]:checked'
       );
 
-    // =========================
-    // VALIDACIÓN 1
-    // Nombre mínimo 3 letras
-    // =========================
-
     if (name.length < 3) {
 
       showError(
@@ -50,12 +38,6 @@ form.addEventListener(
 
       isValid = false;
     }
-
-    // =========================
-    // VALIDACIÓN 2
-    // Email válido
-    // =========================
-
     const emailRegex =
       /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -69,11 +51,6 @@ form.addEventListener(
       isValid = false;
     }
 
-    // =========================
-    // VALIDACIÓN 3
-    // Edad mínima
-    // =========================
-
     if (age < 18 || age > 100) {
 
       showError(
@@ -83,11 +60,6 @@ form.addEventListener(
 
       isValid = false;
     }
-
-    // =========================
-    // VALIDACIÓN 4
-    // Seleccionar intereses
-    // =========================
 
     if (interests.length === 0) {
 
@@ -99,11 +71,6 @@ form.addEventListener(
       isValid = false;
     }
 
-    // =========================
-    // VALIDACIÓN 5
-    // Seleccionar horario
-    // =========================
-
     if (schedule === "") {
 
       showError(
@@ -113,11 +80,6 @@ form.addEventListener(
 
       isValid = false;
     }
-
-    // =========================
-    // VALIDACIÓN 6
-    // Validar archivo
-    // =========================
 
     if (documentFile) {
 
@@ -143,10 +105,6 @@ form.addEventListener(
 
     }
 
-    // =========================
-    // Resultado final
-    // =========================
-
     if (isValid) {
 
       alert(
@@ -159,21 +117,11 @@ form.addEventListener(
   }
 );
 
-
-// =============================
-// Mostrar errores
-// =============================
-
 function showError(id, message) {
 
   document.getElementById(id).textContent =
     message;
 }
-
-
-// =============================
-// Limpiar errores
-// =============================
 
 function clearErrors() {
 

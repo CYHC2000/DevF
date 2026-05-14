@@ -2,57 +2,90 @@ body {
   font-family: Arial, sans-serif;
   background: #f3f4f6;
   margin: 0;
-  padding: 20px;
+  padding: 60px;
 }
 
 .container {
-  max-width: 500px;
+  width: 60%;
   margin: auto;
   background: white;
-  padding: 25px;
-  border-radius: 10px;
+  padding: 30px;
+  border-radius: 50px;
   box-shadow: 0 2px 8px rgba(0,0,0,0.1);
 }
 
 h1 {
   text-align: center;
   margin-bottom: 25px;
+  font-size: 2.3rem;
 }
 
 .form-group {
   margin-bottom: 20px;
 }
 
-label {
+.campo{
   display: block;
+  padding: 0px 5px;
   margin-bottom: 8px;
 }
 
-input,
-select {
-  width: 100%;
-  padding: 10px;
-  box-sizing: border-box;
+.texto{
+  width: 90%;
+  outline: none;
+  border: 2px solid #e6e6e6;
+  padding: 10px 15px;
+  border-radius: 50px;
+}
+
+.texto:focus{
+  border: 2px solid #beb2ff;
 }
 
 .checkbox-group label {
-  display: block;
   margin-bottom: 5px;
+  color: #4f5053;
+}
+
+.titulos{
+  margin-bottom: 8px;
+  display: block;
+  padding: 0px 5px;
+  color: #081435;
+}
+
+select {
+  display: block;
+  width: 80%;
+  padding: 10px;
+  box-sizing: border-box;
+  border-radius: 50px;
+  outline: none;
+  border: 2px solid #e6e6e6;
 }
 
 button {
-  width: 100%;
-  padding: 12px;
+  display: flex;
+  justify-content: center;
+  margin: 0 auto;
+  padding: 15px 20px;
   border: none;
   background: #2563eb;
   color: white;
-  font-size: 16px;
+  font-size: 1rem;
   cursor: pointer;
-  border-radius: 5px;
+  border-radius: 50px;
 }
 
 button:hover {
   background: #1d4ed8;
+}
+
+.documento{
+  width: 80%;
+  outline: none;
+  padding: 0px 5px;
+  color: #7c0842;
 }
 
 .error {
