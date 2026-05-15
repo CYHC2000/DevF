@@ -1,13 +1,40 @@
-// ===============================
-// Mesas disponibles en restaurante
-// ===============================
+let mesasDisponibles = Math.floor(Math.random() * 20 + 1);
 
-let mesasDisponibles = 5;
+const formReserva =
+  document.getElementById(
+    "formReserva"
+  );
+
+const resultado =
+  document.getElementById(
+    "resultado"
+  );
+
+const mesasHTML =
+  document.getElementById(
+    "mesasDisponibles"
+  );
 
 
-// ===============================
-// Verificar disponibilidad
-// ===============================
+function mostrarMensaje(
+  mensaje,
+  tipo = "info"
+) {
+
+  const div =
+    document.createElement("div");
+
+  div.classList.add(
+    "log",
+    tipo
+  );
+
+  div.textContent = mensaje;
+
+  resultado.prepend(div);
+
+}
+
 
 function verificarDisponibilidad(
   mesasSolicitadas
@@ -15,8 +42,9 @@ function verificarDisponibilidad(
 
   return new Promise((resolve, reject) => {
 
-    console.log(
-      "Verificando disponibilidad..."
+    mostrarMensaje(
+      "Verificando disponibilidad...",
+      "info"
     );
 
     setTimeout(() => {
@@ -32,7 +60,7 @@ function verificarDisponibilidad(
       } else {
 
         reject(
-          `No hay suficientes mesas disponibles`
+          "No hay suficientes mesas disponibles"
         );
 
       }
@@ -43,24 +71,19 @@ function verificarDisponibilidad(
 
 }
 
-
-// ===============================
-// Simular envío de correo
-// ===============================
-
 function enviarConfirmacionReserva(
   nombreCliente
 ) {
 
   return new Promise((resolve, reject) => {
 
-    console.log(
-      "Enviando correo de confirmación..."
+    mostrarMensaje(
+      "Enviando correo de confirmación...",
+      "info"
     );
 
     setTimeout(() => {
 
-      // Simulación aleatoria
       const envioExitoso =
         Math.random() > 0.3;
 
@@ -73,7 +96,7 @@ function enviarConfirmacionReserva(
       } else {
 
         reject(
-          `Error al enviar el correo`
+          "Error al enviar el correo"
         );
 
       }
@@ -84,11 +107,6 @@ function enviarConfirmacionReserva(
 
 }
 
-
-// ===============================
-// Función principal
-// ===============================
-
 async function hacerReserva(
   nombreCliente,
   mesasSolicitadas
@@ -96,61 +114,91 @@ async function hacerReserva(
 
   try {
 
-    console.log(`
-========================
-Nueva reserva
-Cliente: ${nombreCliente}
-========================
-    `);
+    mostrarMensaje(
+      `Nueva reserva para ${nombreCliente}`,
+      "info"
+    );
 
-    // 1. Verificar mesas
+    // Verificar mesas
     const disponibilidad =
       await verificarDisponibilidad(
         mesasSolicitadas
       );
 
-    console.log(disponibilidad);
-
-    // Descontar mesas
-    mesasDisponibles -= mesasSolicitadas;
-
-    console.log(
-      `Reserva confirmada para ${nombreCliente}`
+    mostrarMensaje(
+      disponibilidad,
+      "success"
     );
 
-    console.log(
-      `Mesas restantes: ${mesasDisponibles}`
+    mesasDisponibles -=
+      mesasSolicitadas;
+
+    mostrarMensaje(
+      `Reserva confirmada para ${nombreCliente}`,
+      "success"
     );
 
-    // 2. Enviar correo
+    mostrarMensaje(
+      `Mesas restantes: ${mesasDisponibles}`,
+      "info"
+    );
+
     const correo =
       await enviarConfirmacionReserva(
         nombreCliente
       );
 
-    console.log(correo);
+    mostrarMensaje(
+      correo,
+      "success"
+    );
 
   } catch (error) {
 
-    console.error(`
-ERROR:
-${error}
-    `);
+    mostrarMensaje(
+      error,
+      "error"
+    );
 
   }
 
 }
 
 
-// ===============================
-// Pruebas
-// ===============================
+formReserva.addEventListener(
+  "submit",
+  async (e) => {
 
-// Reserva válida
-hacerReserva("Carlos", 2);
+    e.preventDefault();
 
-// Reserva válida
-hacerReserva("Ana", 1);
+    const nombre =
+      document.getElementById(
+        "nombre"
+      ).value;
 
-// Reserva inválida
-hacerReserva("Luis", 10);
+    const correo =
+      Number(
+        document.getElementById(
+          "correo"
+        ).value
+      );
+
+    const mesas =
+      Number(
+        document.getElementById(
+          "mesas"
+        ).value
+      );
+
+    await hacerReserva(
+      nombre,
+      correo,
+      mesas
+    );
+
+    formReserva.reset();
+
+  }
+);
+
+actualizarMesas();
