@@ -10,11 +10,6 @@ const resultado =
     "resultado"
   );
 
-const mesasHTML =
-  document.getElementById(
-    "mesasDisponibles"
-  );
-
 
 function mostrarMensaje(
   mensaje,
@@ -54,7 +49,7 @@ function verificarDisponibilidad(
       ) {
 
         resolve(
-          `Mesas disponibles para ${mesasSolicitadas} personas`
+          `Mesas disponibles para ${mesasSolicitadas} mesas`
         );
 
       } else {
@@ -177,11 +172,9 @@ formReserva.addEventListener(
       ).value;
 
     const correo =
-      Number(
-        document.getElementById(
-          "correo"
-        ).value
-      );
+      document.getElementById(
+        "correo"
+      ).value;
 
     const mesas =
       Number(
@@ -200,5 +193,3 @@ formReserva.addEventListener(
 
   }
 );
-
-actualizarMesas();

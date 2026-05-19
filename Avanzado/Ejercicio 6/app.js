@@ -1,13 +1,10 @@
+import { z } from "https://cdn.skypack.dev/zod";
+
 const form =
   document.getElementById("registerForm");
 
 const errorsContainer =
   document.getElementById("errors");
-
-
-// ===============================
-// Esquema Zod
-// ===============================
 
 const userSchema = z.object({
 
@@ -43,18 +40,14 @@ const userSchema = z.object({
 });
 
 
-// ===============================
-// Evento submit
-// ===============================
-
 form.addEventListener(
   "submit",
   function(event) {
 
     event.preventDefault();
 
-    // Limpiar errores
-    errorsContainer.innerHTML = "";
+/*     // Limpiar errores
+    errorsContainer.innerHTML = ""; */
 
     // Obtener datos
     const formData = {
@@ -80,7 +73,7 @@ form.addEventListener(
     // Si hay errores
     if (!result.success) {
 
-      result.error.errors.forEach(error => {
+      result.error.issues.forEach(error => {
 
         const errorMessage =
           document.createElement("p");
